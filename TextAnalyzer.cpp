@@ -43,28 +43,33 @@ namespace TXTANALYZE
 				for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
 					if (sentenceanalyze.getWord(i).length() > 3)
 						if (notfound != strsynon.find(sentenceanalyze.getWord(i)))
-							keywords += testkey + " ";
+							if (!InFile.eof())
+								keywords += testkey + " ";
+							else
+								keywords += testkey;
 				}
 			}
 			InFile.close();
 			testkey.clear();
-			keywords.erase(keywords.length() - 1, keywords.length());
 			InFile.open("txt files/TestStandard.txt", std::ios_base::in);
-
-			while (!InFile.eof())	{
-				std::string standdeterm;
-				std::getline(InFile, testkey);
-				std::getline(InFile, standdeterm);
-				if (notfound != standdeterm.find(keywords)) {
-					std::cout << "\nANALYZE TEST. \n INPUT NAME - " + inEnt.getName() + ". ANALYZED NAME - " + testkey + '\n';
-					return std::string(testkey);
+			
+			if (keywords.length() != 0) {
+				while (!InFile.eof()) {
+					std::string standdeterm;
+					std::getline(InFile, testkey);
+					std::getline(InFile, standdeterm);
+					if (notfound != standdeterm.find(keywords)) {
+						std::cout << "\nANALYZE TEST. \n INPUT NAME - " + inEnt.getName() + ". ANALYZED NAME - " + testkey + '\n';
+						InFile.close();
+						return std::string(testkey);
+					}
 				}
 			}
-
+			InFile.close();
 		}
 		std::cout << "\nANALYZE TEST. \n FAIL TO ANALYZE.\n";
 		// TEST CODE END
-		return std::string();
+		return std::string(inEnt.getName());
 	}
 
 	std::string TxtAnalyzer::GenParam(const std::string & inname)

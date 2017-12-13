@@ -75,7 +75,8 @@ namespace VCORE
 		CorrespLine corrbuff;
 		std::string relstandname, rdrelname;
 		std::vector<std::string> ParamString, StandParamString;
-		bool prmStopCycle = false;
+		unsigned int i = 0;
+		bool nextFlag, stopFlag;
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
@@ -127,6 +128,7 @@ namespace VCORE
 				ReadRelArr[i].setChildEnt(rdrelname);
 			else
 				ReadRelArr[i].setChildEnt(relstandname);
+			
 			#ifdef _DEBUG
 				std::cout << "\nType = " << ReadRelArr[i].getType() << "\nParent = " << ReadRelArr[i].getParentEnt() << "\nChild = " << ReadRelArr[i].getChildEnt() << '\n';
 			#endif // _DEBUG
@@ -148,39 +150,29 @@ namespace VCORE
 		iomodule.setFileName(paramFlName);
 		iomodule.readParamStr(StandParamString);
 
-		if (StandParamString.size() > ParamString.size()) {
-			iomodule.writeLine("txt files/TestVerificationResults.txt", "Подозрение на неполное описание предметной области.");
-			iparamstr = ParamString.size();
-		}
-		else {
-			if (StandParamString.size() < ParamString.size()) {
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Подозрение на избыточность описания предметной области.");
-				iparamstr = StandParamString.size();
-			}
-			else
-				iparamstr = StandParamString.size();
-		}			
-
-		for (unsigned int i = 0; i < iparamstr; i++) {
-			prmStopCycle = false;
-			for (unsigned int j = 0; j < iparamstr && !prmStopCycle; j++) {
+		while (i != StandParamString.size()) {
+			nextFlag = stopFlag = true;
+			for (unsigned int j = 0; (j < ParamString.size()) && stopFlag; j++) {
 				if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
 					StandParamString.erase(StandParamString.begin() + i);
-					ParamString.erase(ParamString.begin() + j);
-					prmStopCycle = true;
+#ifdef _DEBUG
+					std::cout << "\nИтоговый цикл. Из стандартной модели успешно удален элемент: \n" << ParamString.at(j) << '\n';
+					nextFlag = stopFlag = false;
+#endif // _DEBUG
 				}
 			}
-		}
+			if (nextFlag)
+				i++;
+		}		
 
 		if (StandParamString.size() != 0) {
-			for (unsigned int i = 0; i < StandParamString.size(); i++)
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Не представлено в проверяемой модели: " + StandParamString.at(i));
+			for (unsigned int i = 0; i < StandParamString.size(); i++) {
+				iomodule.writeLine("txt files/results/TestVerificationResults.txt", "Не представлено в проверяемой модели: " + findNameFromParam(StandParamString.at(i), corrtable));
+			}
 		}
+		else
+			iomodule.writeLine("txt files/results/TestVerificationResults.txt", "В проверямой модели представлены все сущности и связи эталона.");
 
-		if (ParamString.size() != 0) {
-			for (unsigned int i = 0; i < ParamString.size(); i++)
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Не найдено соответствий в эталоне для: " + ParamString.at(i));
-		}
 		// БЛОК СЧИТЫВАНИЯ СВЯЗЕЙ
 		// DONE :	1) реализовать в модуле считывания функцию считывания кол-ва связей (либо считывать до тех пор, пока не встретили конец файла)
 		//			2) считывая имена сущностей в связях соотносить их с таблицей corrtable

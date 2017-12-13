@@ -12,7 +12,7 @@ int main()
 	std::fstream FileOut;
 	std::streambuf *save;
 
-	FileOut.open("txt files/TestLog.txt", std::ios_base::out);
+	FileOut.open("txt files/results/TestLog.txt", std::ios_base::out);
 	save = std::cout.rdbuf();
 	std::cout.rdbuf(FileOut.rdbuf());
 	

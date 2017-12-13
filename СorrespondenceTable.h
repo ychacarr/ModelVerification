@@ -45,6 +45,7 @@ namespace VCORE
 		CorrespLine & operator= (const CorrespLine & rhs);
 		friend std::string findStndNameTo(const std::string & veriname, const std::vector<CorrespLine> & intable);
 		friend std::string findVerNameTo(const std::string & standname, const std::vector<CorrespLine> & intable);
+		friend std::string findNameFromParam(const std::string & inparam, const std::vector<CorrespLine> & intable);
 	};
 
 

@@ -283,7 +283,7 @@ namespace INPUT {
 			ERROR::throwError("Error in IO::writeParamString(). paramstring is empty.", ID);
 
 		std::ofstream OutFile;
-		OutFile.open(FileName, std::ios_base::out | std::ios_base::trunc);
+		OutFile.open(FileName, std::ios_base::out | std::ios_base::app);
 		if (!OutFile.is_open())
 			ERROR::throwError("Error in IO::writeParamString(). Can't open the file.", ID);
 
