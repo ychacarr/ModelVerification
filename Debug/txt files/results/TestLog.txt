@@ -1,0 +1,108 @@
+
+TEST
+
+IO(). Object with ID = 1 was created.
+
+VerificationCore(). Object with ID = 1 was created.
+
+Entity(). Object with ID = 1 was created.
+
+TxtAnalyzer(). Object with ID = 1 was created.
+
+CorrespLine(). Object with ID = 1 was created.
+
+TEST. IO::read(). rdstring = Проверочная_сущность
+
+TEST. IO::read(). rdstring = ХАХАХА.
+
+Sentence TEST.
+ WORD AT 0 = хахаха
+
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. IO::read(). rdstring = Транзитник
+
+TEST. IO::read(). rdstring = Человек, который перемещается на воздушном лайнере в соответствии с договором воздушной перевозки.
+
+Sentence TEST.
+ WORD AT 0 = человек
+
+Sentence TEST.
+ WORD AT 1 = который
+
+Sentence TEST.
+ WORD AT 2 = перемещается
+
+Sentence TEST.
+ WORD AT 3 = на
+
+Sentence TEST.
+ WORD AT 4 = воздушном
+
+Sentence TEST.
+ WORD AT 5 = лайнере
+
+Sentence TEST.
+ WORD AT 6 = в
+
+Sentence TEST.
+ WORD AT 7 = соответствии
+
+Sentence TEST.
+ WORD AT 8 = с
+
+Sentence TEST.
+ WORD AT 9 = договором
+
+Sentence TEST.
+ WORD AT 10 = воздушной
+
+Sentence TEST.
+ WORD AT 11 = перевозки
+
+ANALYZE TEST. 
+ INPUT NAME - Транзитник. ANALYZED NAME - Пассажир
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+
+Проверочная_сущность Проверочная_сущность Пяь20
+Транзитник Пассажир Пар8
+
+RelCount = 1
+
+Relation(). Object with ID = 1 was created.
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Проверочная_сущность
+
+TEST. IO::read(). rdstring = Транзитник
+
+Type = i
+Parent = Проверочная_сущность
+Child = Пассажир
+~Relation(). Object with ID = 1 was destroyed.
+PARAM STRING:
+0 Пяь20
+1 Пар8
+2 Пяь20!Пар8
+
+TEST. IO::readParamStr(). rdstring = Эть27!Пар8
+
+TEST. IO::readParamStr(). rdstring = Эть27
+
+TEST. IO::readParamStr(). rdstring = Пар8
+
+Итоговый цикл. Из стандартной модели успешно удален элемент: 
+Пар8
+~CorrespLine. Object with ID = 1 was destroyed.
+~TxtAnalyzer(). Object with ID = 1 was destroyed.
+~Entity(). Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~VerificationCore(). Object with ID = 1 was destroyed.
+
+~IO(). Object with ID = 1 was destroyed.
