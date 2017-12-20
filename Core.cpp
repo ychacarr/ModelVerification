@@ -78,6 +78,8 @@ namespace VCORE
 		unsigned int i = 0;
 		bool nextFlag, stopFlag;
 
+		std::string verfresults = "";
+
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
 			ERROR::throwError("Error in VerificationCore::start(). Input entity count can't be <= 0. Check input file.", ID);
@@ -88,7 +90,10 @@ namespace VCORE
 			//TEST CODE START. 
 			//TO DO: переписать код к более приемлемому виду, как только будет написан модуль анализа текста
 			corrbuff.setVerifName(ReadEnt.getName());
-			std::string buf = Analyzer.Analyze(ReadEnt);
+			std::string buf;
+			if (!Analyzer.Analyze(ReadEnt, buf)) 
+				verfresults.append("\nНе найдено соответствие для сущности: " + buf);
+
 			corrbuff.setStandName(buf);
 			if (buf.length() > 0)
 				corrbuff.setParam(Analyzer.GenParam(buf));
@@ -150,29 +155,52 @@ namespace VCORE
 		iomodule.setFileName(paramFlName);
 		iomodule.readParamStr(StandParamString);
 
-		while (i != StandParamString.size()) {
+		//Сверка эталона с моделью и удаление из эталона
+		/*
+			while (i != StandParamString.size()) {
+				nextFlag = stopFlag = true;
+				for (unsigned int j = 0; (j < ParamString.size()) && stopFlag; j++) {
+					if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
+						StandParamString.erase(StandParamString.begin() + i);
+						#ifdef _DEBUG
+							std::cout << "\nИтоговый цикл. Из стандартной модели успешно удален элемент: \n" << ParamString.at(j) << '\n';
+							nextFlag = stopFlag = false;
+						#endif // _DEBUG
+					}
+				}
+				if (nextFlag)
+					i++;
+			}
+		*/
+		if (ParamString.size() < StandParamString.size())
+			verfresults.append("\nПредупреждение! Возможно проверяемая модель не полностью отображает предметную область.");
+
+		while (i != ParamString.size()) {
 			nextFlag = stopFlag = true;
-			for (unsigned int j = 0; (j < ParamString.size()) && stopFlag; j++) {
-				if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
-					StandParamString.erase(StandParamString.begin() + i);
+			for (unsigned int j = 0; (j < StandParamString.size()) && stopFlag; j++) {
+				if (StandParamString.at(j).compare(ParamString.at(i)) == 0) {
 #ifdef _DEBUG
-					std::cout << "\nИтоговый цикл. Из стандартной модели успешно удален элемент: \n" << ParamString.at(j) << '\n';
+					std::cout << "\nИтоговый цикл. Из проверяемой модели успешно удален элемент: \n" << ParamString.at(i) << '\n';
 					nextFlag = stopFlag = false;
 #endif // _DEBUG
+					ParamString.erase(ParamString.begin() + i);
 				}
 			}
 			if (nextFlag)
 				i++;
-		}		
-
-		if (StandParamString.size() != 0) {
-			iomodule.freset("txt files/results/TestVerificationResults.txt");
-			for (unsigned int i = 0; i < StandParamString.size(); i++) {
-				iomodule.writeLine("txt files/results/TestVerificationResults.txt", "Не представлено в проверяемой модели: " + findNameFromParam(StandParamString.at(i), corrtable));
-			}
 		}
-		else
-			iomodule.writeLine("txt files/results/TestVerificationResults.txt", "В проверямой модели представлены все сущности и связи эталона.");
+
+		if (ParamString.size() != 0)
+			for (unsigned int i = 0; i < ParamString.size(); i++)
+				verfresults.append("\nНе удалось соотнести с эталоном: " + findNameFromParam(ParamString.at(i), corrtable));
+		else {
+			verfresults.clear();
+			verfresults.append("\nПроверямая модель точно отображает предметную область.");
+		}
+
+		if (!iomodule.freset("txt files/results/TestVerificationResults.txt"))
+			ERROR::throwError("Error in VerificationCore::start(). Can't open file to write down verifications results.", ID);
+		iomodule.writeLine("txt files/results/TestVerificationResults.txt", verfresults);
 
 		// БЛОК СЧИТЫВАНИЯ СВЯЗЕЙ
 		// DONE :	1) реализовать в модуле считывания функцию считывания кол-ва связей (либо считывать до тех пор, пока не встретили конец файла)

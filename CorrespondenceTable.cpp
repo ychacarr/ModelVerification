@@ -139,7 +139,7 @@ namespace VCORE
 	{
 		if (inparam.find('!') != std::string::npos) {
 			unsigned int icycl = 0;
-			std::string result = "Идентифицирующая связь между ";
+			std::string result = "Связь между ";
 
 			while (icycl < inparam.length()) {
 				std::string paramPiece = "";

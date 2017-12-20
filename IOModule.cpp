@@ -292,10 +292,13 @@ namespace INPUT {
 		OutFile.close();
 	}
 
-	void IO::freset(const std::string &FileName) const
+	bool IO::freset(const std::string &FileName) const
 	{
-		std::fstream File;
-		File.open(FileName, std::ios_base::trunc);
+		std::ofstream File;
+		File.open(FileName, std::ios_base::out | std::ios_base::trunc);
+		if (!File.is_open())
+			return false;
 		File.close();
+		return true;
 	}
 }

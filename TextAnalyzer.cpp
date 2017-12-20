@@ -24,9 +24,10 @@ namespace TXTANALYZE
 		#endif // _DEBUG
 	}
 
-	std::string TxtAnalyzer::Analyze(const MODEL::Entity &inEnt)
+	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, std::string & outname)
 	{
 		Sentence sentenceanalyze(inEnt.getDeterm());
+		outname.clear();
 		std::string keywords, testkey;
 		std::size_t notfound = std::string::npos;
 		//TEST CODE START
@@ -63,7 +64,7 @@ namespace TXTANALYZE
 					}
 				}
 			InFile.close();
-			if (keywords.length() != 0)
+			if (keywords.length() > 1)
 				keywords.erase(keywords.end() - 1);
 			testkey.clear();
 			InFile.open("txt files/TestStandard.txt", std::ios_base::in);
@@ -76,7 +77,8 @@ namespace TXTANALYZE
 					if (notfound != standdeterm.find(keywords)) {
 						std::cout << "\nANALYZE TEST. \n INPUT NAME - " + inEnt.getName() + ". ANALYZED NAME - " + testkey + '\n';
 						InFile.close();
-						return std::string(testkey);
+						outname.append(testkey);
+						return true;
 					}
 				}
 			}
@@ -84,7 +86,8 @@ namespace TXTANALYZE
 		}
 		std::cout << "\nANALYZE TEST. \n FAIL TO ANALYZE.\n";
 		// TEST CODE END
-		return std::string(inEnt.getName());
+		outname.append(inEnt.getName());
+		return false;
 	}
 
 	std::string TxtAnalyzer::GenParam(const std::string & inname)
