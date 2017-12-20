@@ -36,9 +36,11 @@ int main()
 	catch (const char *ErrMSG) {
 		std::cout << '\n' << ErrMSG << '\n';
 		std::cout.rdbuf(save);
+		FileOut.close();
 		return -1;
 	}
 
 	std::cout.rdbuf(save);
+	FileOut.close();
     return 0;
 }

@@ -31,25 +31,40 @@ namespace TXTANALYZE
 		std::size_t notfound = std::string::npos;
 		//TEST CODE START
 		{
-			std::ifstream InFile("txt files/TestDictionary.txt", std::ios_base::in);
-			if (!InFile.is_open())
-				ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open the file. ID - Entity.", inEnt.getID());
+			std::ifstream InFile;
+			//std::ifstream InFile("txt files/TestDictionary.txt", std::ios_base::in);
+			//if (!InFile.is_open())
+			//	ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open the file. ID - Entity.", inEnt.getID());
 
-			while (!InFile.eof())	{
-				std::string strsynon;
-				std::getline(InFile, testkey, '\n');
-				std::getline(InFile, strsynon, '\n');
-
+			//while (!InFile.eof())	{
+			//	std::string strsynon;
+			//	std::getline(InFile, testkey, '\n');
+			//	std::getline(InFile, strsynon, '\n');
+			bool endFlag = false;
 				for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
-					if (sentenceanalyze.getWord(i).length() > 3)
-						if (notfound != strsynon.find(sentenceanalyze.getWord(i)))
-							if (!InFile.eof())
+					endFlag = false;
+					if (sentenceanalyze.getWord(i).length() > 3) {
+						std::cout << '\n' << sentenceanalyze.getWord(i) << " now analyze.";
+						InFile.open("txt files/TestDictionary.txt", std::ios_base::in);
+						if (!InFile.is_open())
+							ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open the file. ID - Entity.", inEnt.getID());
+						while (!InFile.eof() && !endFlag) {
+							std::string strsynon;
+							std::getline(InFile, testkey, '\n');
+							std::getline(InFile, strsynon, '\n');
+
+							if (notfound != strsynon.find(sentenceanalyze.getWord(i))) {
 								keywords += testkey + " ";
-							else
-								keywords += testkey;
+								endFlag = true;
+							}
+						}
+						InFile.close();
+						std::cout << '\n' << sentenceanalyze.getWord(i) << " analyze end.";
+					}
 				}
-			}
 			InFile.close();
+			if (keywords.length() != 0)
+				keywords.erase(keywords.end() - 1);
 			testkey.clear();
 			InFile.open("txt files/TestStandard.txt", std::ios_base::in);
 			

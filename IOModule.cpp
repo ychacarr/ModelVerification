@@ -11,18 +11,18 @@ namespace INPUT {
 
 	//
 	//
-	// мюохяюрэ лернд дкъ мнплюкэмнцн явхршбюмхъ х тнплхпнбюмхъ string ХГ тюикю. вРН РН БПНДЕ rawread(std::string rstr)
+	// Done:	мюохяюрэ лернд дкъ мнплюкэмнцн явхршбюмхъ х тнплхпнбюмхъ string ХГ тюикю. вРН РН БПНДЕ rawread(std::string rstr)
 	//
 	//
 
-	IO::IO() 
+	IO::IO()
 	{
 		ID = ++Counter;
 		ReadFileName = "";
 		FilePos = 0;
-		#ifdef _DEBUG
-			std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
-		#endif // _DEBUG
+#ifdef _DEBUG
+		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
+#endif // _DEBUG
 	}
 
 	IO::IO(const std::string & fname)
@@ -30,20 +30,20 @@ namespace INPUT {
 		ID = ++Counter;
 		ReadFileName = fname;
 		FilePos = 0;
-		#ifdef _DEBUG
-			std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
-		#endif // _DEBUG		
+#ifdef _DEBUG
+		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
+#endif // _DEBUG		
 	}
 
-	IO::~IO() 
+	IO::~IO()
 	{
 		ReadFileName.clear();
-		#ifdef _DEBUG
-			std::cout << "\n~IO(). Object with ID = " << ID << " was destroyed.\n";
-		#endif // _DEBUG
+#ifdef _DEBUG
+		std::cout << "\n~IO(). Object with ID = " << ID << " was destroyed.\n";
+#endif // _DEBUG
 	}
 
-	std::string IO::getFileName() const 
+	std::string IO::getFileName() const
 	{
 		return std::string(ReadFileName);
 	}
@@ -57,17 +57,17 @@ namespace INPUT {
 		ReadFileName.append(fname);
 	}
 
-	int IO::getFilePos() const 
+	int IO::getFilePos() const
 	{
 		return FilePos;
 	}
 
-	unsigned int IO::getID() const 
+	unsigned int IO::getID() const
 	{
 		return ID;
 	}
 
-	bool IO::checkEOF() const 
+	bool IO::checkEOF() const
 	{
 		if (FilePos == -1)
 			return true;
@@ -137,9 +137,9 @@ namespace INPUT {
 				rdstring += symb;
 				InFile.get(symb);
 			}
-			#ifdef _DEBUG
-				std::cout << "\nTEST. IO::read(). rdstring = " << rdstring << "\n";
-			#endif // _DEBUG
+#ifdef _DEBUG
+			std::cout << "\nTEST. IO::read(). rdstring = " << rdstring << "\n";
+#endif // _DEBUG
 		}
 		else
 			ERROR::throwError("Error in IO::read(). Incorrect file structure.", ID);
@@ -233,7 +233,7 @@ namespace INPUT {
 			InFile.get(symb);
 		}
 		rdcount = USEFUNC::strToint(readstr);
-		
+
 		if (InFile.peek() != EOF)
 			FilePos = (int)InFile.tellg();
 		else
@@ -250,9 +250,9 @@ namespace INPUT {
 		for (int i = 0; i < USEFUNC::strToint(readcount); i++) {
 			rawread(readstring);
 			paramstr.push_back(readstring);
-			#ifdef _DEBUG
-				std::cout << "\nTEST. IO::readParamStr(). rdstring = " << readstring << "\n";
-			#endif // _DEBUG
+#ifdef _DEBUG
+			std::cout << "\nTEST. IO::readParamStr(). rdstring = " << readstring << "\n";
+#endif // _DEBUG
 		}
 	}
 
@@ -290,5 +290,12 @@ namespace INPUT {
 		OutFile << strline << '\n';
 
 		OutFile.close();
+	}
+
+	void IO::freset(const std::string &FileName) const
+	{
+		std::fstream File;
+		File.open(FileName, std::ios_base::trunc);
+		File.close();
 	}
 }

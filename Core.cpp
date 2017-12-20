@@ -166,6 +166,7 @@ namespace VCORE
 		}		
 
 		if (StandParamString.size() != 0) {
+			iomodule.freset("txt files/results/TestVerificationResults.txt");
 			for (unsigned int i = 0; i < StandParamString.size(); i++) {
 				iomodule.writeLine("txt files/results/TestVerificationResults.txt", "Ќе представлено в провер€емой модели: " + findNameFromParam(StandParamString.at(i), corrtable));
 			}
