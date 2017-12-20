@@ -55,8 +55,12 @@ namespace TXTANALYZE
 							std::getline(InFile, strsynon, '\n');
 
 							if (notfound != strsynon.find(sentenceanalyze.getWord(i))) {
-								keywords += testkey + " ";
-								endFlag = true;
+								// ƒл€ исключени€ повторного добавлени€ ключевых слов
+								// ¬озможно излиш€€ проверка, но пока пусть будет
+								if (notfound == keywords.find(testkey)) {
+									keywords += testkey + " ";
+									endFlag = true;
+								}
 							}
 						}
 						InFile.close();
