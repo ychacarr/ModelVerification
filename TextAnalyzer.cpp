@@ -79,7 +79,7 @@ namespace TXTANALYZE
 					std::getline(InFile, testkey);
 					std::getline(InFile, standdeterm);
 					if (notfound != standdeterm.find(keywords)) {
-						std::cout << "\nANALYZE TEST. \n INPUT NAME - " + inEnt.getName() + ". ANALYZED NAME - " + testkey + '\n';
+						std::cout << "\nANALYZE TEST. \n Проверяемая сущность - " + inEnt.getName() + ". Сущность в эталоне - " + testkey + '\n';
 						InFile.close();
 						outname.append(testkey);
 						return true;
