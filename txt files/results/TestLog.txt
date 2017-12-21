@@ -52,7 +52,7 @@ Sentence TEST.
 провайдера now analyze.
 провайдера analyze end.
 ANALYZE TEST. 
- INPUT NAME - Обращение. ANALYZED NAME - Заявка
+ Проверяемая сущность - Обращение. Сущность в эталоне - Заявка
 ~Sentence(). Object with ID = 0 was destroyed.
 
 TEST. IO::read(). rdstring = Заказчик
@@ -75,7 +75,7 @@ Sentence TEST.
 обращение now analyze.
 обращение analyze end.
 ANALYZE TEST. 
- INPUT NAME - Заказчик. ANALYZED NAME - Клиент
+ FAIL TO ANALYZE.
 ~Sentence(). Object with ID = 0 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 
@@ -107,7 +107,7 @@ Sentence TEST.
 заказчика now analyze.
 заказчика analyze end.
 ANALYZE TEST. 
- INPUT NAME - Консультант. ANALYZED NAME - Консультант
+ Проверяемая сущность - Консультант. Сущность в эталоне - Консультант
 ~Sentence(). Object with ID = 0 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
@@ -193,7 +193,7 @@ ANALYZE TEST.
 
 
 Обращение Заявка Зва6
-Заказчик Клиент Кет6
+Заказчик Заказчик Ззк8
 Консультант Консультант Клт11
 Услуга Услуга Ууа6
 Опция Опция Оця5
@@ -253,7 +253,7 @@ Child = Услуга
 ~Relation(). Object with ID = 1 was destroyed.
 PARAM STRING:
 0 Зва6
-1 Кет6
+1 Ззк8
 2 Клт11
 3 Ууа6
 4 Оця5
@@ -282,9 +282,6 @@ TEST. IO::readParamStr(). rdstring = Оця5!Ууа6
 
 Итоговый цикл. Из проверяемой модели успешно удален элемент: 
 Зва6
-
-Итоговый цикл. Из проверяемой модели успешно удален элемент: 
-Кет6
 
 Итоговый цикл. Из проверяемой модели успешно удален элемент: 
 Клт11
