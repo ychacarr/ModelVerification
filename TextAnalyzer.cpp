@@ -24,7 +24,7 @@ namespace TXTANALYZE
 		#endif // _DEBUG
 	}
 
-	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, std::string & outname)
+	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, const std::string & theme, std::string & outname)
 	{
 		Sentence sentenceanalyze(inEnt.getDeterm());
 		outname.clear();
@@ -32,23 +32,16 @@ namespace TXTANALYZE
 		std::size_t notfound = std::string::npos;
 		//TEST CODE START
 		{
+			// !! Использование файла в обход IOModule
 			std::ifstream InFile;
-			//std::ifstream InFile("txt files/TestDictionary.txt", std::ios_base::in);
-			//if (!InFile.is_open())
-			//	ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open the file. ID - Entity.", inEnt.getID());
-
-			//while (!InFile.eof())	{
-			//	std::string strsynon;
-			//	std::getline(InFile, testkey, '\n');
-			//	std::getline(InFile, strsynon, '\n');
 			bool endFlag = false;
 				for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
 					endFlag = false;
 					if (sentenceanalyze.getWord(i).length() > 3) {
 						std::cout << '\n' << sentenceanalyze.getWord(i) << " now analyze.";
-						InFile.open("txt files/TestDictionary.txt", std::ios_base::in);
+						InFile.open("txt files/Dictionary_" + theme + ".txt", std::ios_base::in);
 						if (!InFile.is_open())
-							ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open the file. ID - Entity.", inEnt.getID());
+							ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open Dictionary_ file. ID - Entity.", inEnt.getID());
 						while (!InFile.eof() && !endFlag) {
 							std::string strsynon;
 							std::getline(InFile, testkey, '\n');
@@ -71,8 +64,11 @@ namespace TXTANALYZE
 			if (keywords.length() > 1)
 				keywords.erase(keywords.end() - 1);
 			testkey.clear();
-			InFile.open("txt files/TestStandard.txt", std::ios_base::in);
-			
+			InFile.open("txt files/StandardDefinit_" + theme + ".txt", std::ios_base::in);
+			if (!InFile.is_open())
+				ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open StandardDefinit_ file. ID - Entity.", inEnt.getID());
+
+
 			if (keywords.length() != 0) {
 				while (!InFile.eof()) {
 					std::string standdeterm;

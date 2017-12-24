@@ -1,0 +1,101 @@
+
+Control parameter: 't'
+
+IO(). Object with ID = 1 was created.
+
+VerificationCore(). Object with ID = 1 was created.
+
+Entity(). Object with ID = 1 was created.
+
+TxtAnalyzer(). Object with ID = 1 was created.
+
+TEST. IO::read(). rdstring = Консультант
+
+TEST. IO::read(). rdstring = Сотрудник, оформляющий и принимающий ЗАЯВКУ от КЛИЕНТА.
+
+TEST. IO::read(). rdstring = Клиент
+
+TEST. IO::read(). rdstring = Человек, который подает ЗАЯВКУ КОНСУЛЬТАНТУ.
+
+TEST. IO::read(). rdstring = Заявка
+
+TEST. IO::read(). rdstring = Обращение КЛИЕНТА к КОНСУЛЬТАНТУ, для предоставления УСЛУГ от интернет-провайдера.
+
+TEST. IO::read(). rdstring = Услуга
+
+TEST. IO::read(). rdstring = Деятельность интернет-провайдера, предоставляемая КЛИЕНТУ.
+
+TEST. IO::read(). rdstring = Опция
+
+TEST. IO::read(). rdstring = Дополнительный вид УСЛУГ, предоставляемый за дополнительную плату.
+
+RelCount = 4
+
+Relation(). Object with ID = 1 was created.
+
+Relation(). Object with ID = 2 was created.
+
+Relation(). Object with ID = 3 was created.
+
+Relation(). Object with ID = 4 was created.
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Консультант
+
+TEST. IO::read(). rdstring = Заявка
+
+Type = i
+Parent = Консультант
+Child = Заявка
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Заявка
+
+TEST. IO::read(). rdstring = Услуга
+
+Type = i
+Parent = Заявка
+Child = Услуга
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Клиент
+
+TEST. IO::read(). rdstring = Заявка
+
+Type = i
+Parent = Клиент
+Child = Заявка
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Опция
+
+TEST. IO::read(). rdstring = Услуга
+
+Type = i
+Parent = Опция
+Child = Услуга
+~Relation(). Object with ID = 4 was destroyed.
+~Relation(). Object with ID = 3 was destroyed.
+~Relation(). Object with ID = 2 was destroyed.
+~Relation(). Object with ID = 1 was destroyed.
+PARAM STRING:
+0 Клт11
+1 Кет6
+2 Зва6
+3 Ууа6
+4 Оця5
+5 Клт11!Зва6
+6 Зва6!Ууа6
+7 Кет6!Зва6
+8 Оця5!Ууа6
+~TxtAnalyzer(). Object with ID = 1 was destroyed.
+~Entity(). Object with ID = 1 was destroyed.
+~VerificationCore(). Object with ID = 1 was destroyed.
+
+~IO(). Object with ID = 1 was destroyed.
+
+Exit status 0.
