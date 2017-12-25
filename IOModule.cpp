@@ -20,6 +20,7 @@ namespace INPUT {
 		ID = ++Counter;
 		ReadFileName = "";
 		FilePos = 0;
+		RelCount = 0;
 #ifdef _DEBUG
 		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
 #endif // _DEBUG
@@ -30,6 +31,7 @@ namespace INPUT {
 		ID = ++Counter;
 		ReadFileName = fname;
 		FilePos = 0;
+		RelCount = 0;
 #ifdef _DEBUG
 		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
 #endif // _DEBUG		
@@ -55,6 +57,9 @@ namespace INPUT {
 			FilePos = 0;
 		}
 		ReadFileName.append(fname);
+		std::ifstream i(ReadFileName);
+		i >> j;
+		i.close();
 	}
 
 	int IO::getFilePos() const
@@ -65,6 +70,15 @@ namespace INPUT {
 	unsigned int IO::getID() const
 	{
 		return ID;
+	}
+
+	std::string IO::getJSONEntFromID(unsigned int & EntID)
+	{
+		std::string entName;
+		j["nodes"][EntID - 1]["entityname"].dump();
+		//entName.erase(entName.begin());
+		//entName.erase(entName.end() - 1);
+		return std::string(entName);
 	}
 
 	bool IO::checkEOF() const
@@ -163,28 +177,42 @@ namespace INPUT {
 	void IO::readEntity(MODEL::Entity & inEnt)
 	{
 		std::string readstr;
-		readEntName(readstr);
+		readstr = j["nodes"][FilePos]["entityname"].dump();
+		//readstr.erase(readstr.begin());
+		//readstr.erase(readstr.end() - 1);
 		inEnt.setName(readstr);
-		readEntDeterm(readstr);
+		readstr = j["nodes"][FilePos]["description"].dump();
+		//readstr.erase(readstr.begin());
+		//readstr.erase(readstr.end() - 1);
 		inEnt.setDeterm(readstr);
+		FilePos++;
 	}
 
 	void IO::readRelType(char & rdtype)
 	{
-		std::string wstr;
+		//rdtype = j["connects"][RelCount]["type"].dump();
+		/*std::string wstr;
 		read('T', wstr);
 		if (wstr.length() != 0)
-			rdtype = wstr.at(0);
+			rdtype = wstr.at(0);*/
+		rdtype = 'i';
 	}
 
 	void IO::readRelParentEnt(std::string & rdparent)
 	{
-		read('P', rdparent);
+		std::string s;
+		s = j["connects"][RelCount]["source"].dump();
+		unsigned int variable = (unsigned int)s[7];
+		rdparent = getJSONEntFromID(variable);
 	}
 
 	void IO::readRelChildEnt(std::string & rdchild)
 	{
-		read('C', rdchild);
+		std::string s;
+		s = j["connects"][RelCount]["target"].dump();
+		unsigned int variable = (unsigned int)s[7];
+		rdchild = getJSONEntFromID(variable);
+		RelCount++;
 	}
 
 	void IO::readRelation(MODEL::Relation & inRel)
@@ -201,24 +229,13 @@ namespace INPUT {
 
 	void IO::readEntCount(int & rdcount)
 	{
-		opentest();
-		std::ifstream InFile;
-		InFile.open(ReadFileName);
-		std::string readstr;
-		char symb;
-		InFile.get(symb);
-		while (symb != '\n') {
-			readstr += symb;
-			InFile.get(symb);
-		}
-		rdcount = USEFUNC::strToint(readstr);
-		FilePos = (int)InFile.tellg();
-		InFile.close();
+		rdcount = j["nodes"].size();
 	}
 
 	void IO::readRelCount(int & rdcount)
 	{
-		opentest();
+		rdcount = j["connects"].size();
+		/*opentest();
 		std::ifstream InFile;
 		InFile.open(ReadFileName);
 		std::string readstr;
@@ -239,7 +256,7 @@ namespace INPUT {
 		else
 			FilePos = -1;
 
-		InFile.close();
+		InFile.close();*/
 	}
 
 	void IO::readParamStr(std::vector<std::string> & paramstr)
