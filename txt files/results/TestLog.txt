@@ -1,0 +1,316 @@
+
+TEST
+
+IO(). Object with ID = 1 was created.
+
+VerificationCore(). Object with ID = 1 was created.
+
+Entity(). Object with ID = 1 was created.
+
+TxtAnalyzer(). Object with ID = 1 was created.
+
+CorrespLine(). Object with ID = 1 was created.
+
+TEST. IO::read(). rdstring = Обращение
+
+TEST. IO::read(). rdstring = Заявление заказчика на предоставление сервиса от интернет-провайдера.
+
+Sentence TEST.
+ WORD AT 0 = заявление
+
+Sentence TEST.
+ WORD AT 1 = заказчика
+
+Sentence TEST.
+ WORD AT 2 = на
+
+Sentence TEST.
+ WORD AT 3 = предоставление
+
+Sentence TEST.
+ WORD AT 4 = сервиса
+
+Sentence TEST.
+ WORD AT 5 = от
+
+Sentence TEST.
+ WORD AT 6 = интернет
+
+Sentence TEST.
+ WORD AT 7 = провайдера
+
+заявление now analyze.
+заявление analyze end.
+заказчика now analyze.
+заказчика analyze end.
+предоставление now analyze.
+предоставление analyze end.
+сервиса now analyze.
+сервиса analyze end.
+интернет now analyze.
+интернет analyze end.
+провайдера now analyze.
+провайдера analyze end.
+ANALYZE TEST. 
+ Проверяемая сущность - Обращение. Сущность в эталоне - Заявка
+~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. IO::read(). rdstring = Заказчик
+
+TEST. IO::read(). rdstring = Лицо, подающее обращение.
+
+Sentence TEST.
+ WORD AT 0 = лицо
+
+Sentence TEST.
+ WORD AT 1 = подающее
+
+Sentence TEST.
+ WORD AT 2 = обращение
+
+лицо now analyze.
+лицо analyze end.
+подающее now analyze.
+подающее analyze end.
+обращение now analyze.
+обращение analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+TEST. IO::read(). rdstring = Консультант
+
+TEST. IO::read(). rdstring = Работник, принимающий обращение от заказчика.
+
+Sentence TEST.
+ WORD AT 0 = работник
+
+Sentence TEST.
+ WORD AT 1 = принимающий
+
+Sentence TEST.
+ WORD AT 2 = обращение
+
+Sentence TEST.
+ WORD AT 3 = от
+
+Sentence TEST.
+ WORD AT 4 = заказчика
+
+работник now analyze.
+работник analyze end.
+принимающий now analyze.
+принимающий analyze end.
+обращение now analyze.
+обращение analyze end.
+заказчика now analyze.
+заказчика analyze end.
+ANALYZE TEST. 
+ Проверяемая сущность - Консультант. Сущность в эталоне - Консультант
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+TEST. IO::read(). rdstring = Услуга
+
+TEST. IO::read(). rdstring = Деятельность интернет-провайдера, представлямая заказчику.
+
+Sentence TEST.
+ WORD AT 0 = деятельность
+
+Sentence TEST.
+ WORD AT 1 = интернет
+
+Sentence TEST.
+ WORD AT 2 = провайдера
+
+Sentence TEST.
+ WORD AT 3 = представлямая
+
+Sentence TEST.
+ WORD AT 4 = заказчику
+
+деятельность now analyze.
+деятельность analyze end.
+интернет now analyze.
+интернет analyze end.
+провайдера now analyze.
+провайдера analyze end.
+представлямая now analyze.
+представлямая analyze end.
+заказчику now analyze.
+заказчику analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+TEST. IO::read(). rdstring = Опция
+
+TEST. IO::read(). rdstring = Дополнительный вид УСЛУГ, предоставляемый за отдельную плату.
+
+Sentence TEST.
+ WORD AT 0 = дополнительный
+
+Sentence TEST.
+ WORD AT 1 = вид
+
+Sentence TEST.
+ WORD AT 2 = услуг
+
+Sentence TEST.
+ WORD AT 3 = предоставляемый
+
+Sentence TEST.
+ WORD AT 4 = за
+
+Sentence TEST.
+ WORD AT 5 = отдельную
+
+Sentence TEST.
+ WORD AT 6 = плату
+
+дополнительный now analyze.
+дополнительный analyze end.
+услуг now analyze.
+услуг analyze end.
+предоставляемый now analyze.
+предоставляемый analyze end.
+отдельную now analyze.
+отдельную analyze end.
+плату now analyze.
+плату analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+
+Обращение Заявка Зва6
+Заказчик Заказчик Ззк8
+Консультант Консультант Клт11
+Услуга Услуга Ууа6
+Опция Опция Оця5
+
+RelCount = 4
+
+Relation(). Object with ID = 1 was created.
+
+Relation(). Object with ID = 2 was created.
+
+Relation(). Object with ID = 3 was created.
+
+Relation(). Object with ID = 4 was created.
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Консультант
+
+TEST. IO::read(). rdstring = Заявка
+
+Type = i
+Parent = Консультант
+Child = Заявка
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Заявка
+
+TEST. IO::read(). rdstring = Услуга
+
+Type = i
+Parent = Заявка
+Child = Услуга
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Клиент
+
+TEST. IO::read(). rdstring = Заявка
+
+Type = i
+Parent = Клиент
+Child = Заявка
+
+TEST. IO::read(). rdstring = i
+
+TEST. IO::read(). rdstring = Опция
+
+TEST. IO::read(). rdstring = Услуга
+
+Type = i
+Parent = Опция
+Child = Услуга
+~Relation(). Object with ID = 4 was destroyed.
+~Relation(). Object with ID = 3 was destroyed.
+~Relation(). Object with ID = 2 was destroyed.
+~Relation(). Object with ID = 1 was destroyed.
+PARAM STRING:
+0 Зва6
+1 Ззк8
+2 Клт11
+3 Ууа6
+4 Оця5
+5 Клт11!Зва6
+6 Зва6!Ууа6
+7 Кет6!Зва6
+8 Оця5!Ууа6
+
+TEST. IO::readParamStr(). rdstring = Клт11
+
+TEST. IO::readParamStr(). rdstring = Кет6
+
+TEST. IO::readParamStr(). rdstring = Зва6
+
+TEST. IO::readParamStr(). rdstring = Ууа6
+
+TEST. IO::readParamStr(). rdstring = Оця5
+
+TEST. IO::readParamStr(). rdstring = Клт11!Зва6
+
+TEST. IO::readParamStr(). rdstring = Зва6!Ууа6
+
+TEST. IO::readParamStr(). rdstring = Кет6!Зва6
+
+TEST. IO::readParamStr(). rdstring = Оця5!Ууа6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Зва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Клт11
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Ууа6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Оця5
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Клт11!Зва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Зва6!Ууа6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Кет6!Зва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+Оця5!Ууа6
+~CorrespLine. Object with ID = 1 was destroyed.
+~TxtAnalyzer(). Object with ID = 1 was destroyed.
+~Entity(). Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~VerificationCore(). Object with ID = 1 was destroyed.
+
+~IO(). Object with ID = 1 was destroyed.

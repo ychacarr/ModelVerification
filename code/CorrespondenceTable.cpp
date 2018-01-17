@@ -135,6 +135,37 @@ namespace VCORE
 		return std::string();
 	}
 
+	std::string findNameFromParam(const std::string & inparam, const std::vector<CorrespLine> & intable)
+	{
+		if (inparam.find('!') != std::string::npos) {
+			unsigned int icycl = 0;
+			std::string result = "Связь между ";
+
+			while (icycl < inparam.length()) {
+				std::string paramPiece = "";
+
+				while (icycl < inparam.length() && inparam.at(icycl) != '!')
+				{
+					paramPiece += inparam.at(icycl);
+					icycl++;
+				}
+				// что бы обойти ! переходим к след. символу в строке
+				icycl++;
+
+				result += findNameFromParam(paramPiece, intable);
+				if (icycl < inparam.length())
+					result += " и ";
+			}
+			return result + ".";
+		}
+		else {
+			for (unsigned int i = 0; i < intable.size(); i++)
+				if (inparam == intable.at(i).getParam())
+					return std::string(intable.at(i).getStandardName());
+		}
+		return std::string(inparam);
+	}
+
 	//CorrespTable::CorrespTable()
 	//{
 	//	ID = ++Counter;

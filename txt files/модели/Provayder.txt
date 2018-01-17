@@ -2,7 +2,7 @@
     "project": "idef1x_project",
     "nodes": [
         {
-            "blockId": "Entity1",
+            "blockId": "Entity0",
             "blocktype": "entity",
             "entityname": "АГЕНТ",
             "description": "Человек, который занимается поиском и оформлением КЛИЕНТОВ. Привязан к конкретному супервайзеру",
@@ -10,7 +10,7 @@
             "positionY": 69
         },
         {
-            "blockId": "Entity2",
+            "blockId": "Entity1",
             "blocktype": "entity",
             "entityname": "КЛИЕНТ",
             "description": "Человек, который оставляет ЗАЯВКУ на услуги компании АГЕНТУ",
@@ -18,7 +18,7 @@
             "positionY": 232
         },
         {
-            "blockId": "Entity3",
+            "blockId": "Entity2",
             "blocktype": "entity",
             "entityname": "ТАРИФНЫЙ_ПЛАН_ИНТЕРНЕТА",
             "description": "Обязательная услуга компании, предоставляемая КЛИЕНТУ",
@@ -26,7 +26,7 @@
             "positionY": 427
         },
         {
-            "blockId": "Entity4",
+            "blockId": "Entity3",
             "blocktype": "entity",
             "entityname": "ЗАЯВКА",
             "description": "Документ, который содержит запрос КЛИЕНТА на предоставление услуг компании",
@@ -34,7 +34,7 @@
             "positionY": 136
         },
         {
-            "blockId": "Entity5",
+            "blockId": "Entity4",
             "blocktype": "entity",
             "entityname": "ОБОРУДОВАНИЕ_В_ЗАЯВКЕ",
             "description": "Выбранные КЛИЕНТОМ устройства",
@@ -42,15 +42,15 @@
             "positionY": 353
         },
         {
-            "blockId": "Entity6",
+            "blockId": "Entity5",
             "blocktype": "entity",
             "entityname": "ОБОРУДОВАНИЕ",
             "description": "Устройство, предлагаемое компанией КЛИЕНТУ для личного пользования",
-            "positionX": 666,
-            "positionY": 522
+            "positionX": 723,
+            "positionY": 524
         },
         {
-            "blockId": "Entity7",
+            "blockId": "Entity6",
             "blocktype": "entity",
             "entityname": "ДОП_УСЛУГА",
             "description": "Деятельность, направленная на удовлетворение потребностей КЛИЕНТА",
@@ -58,12 +58,12 @@
             "positionY": 91
         },
         {
-            "blockId": "Entity8",
+            "blockId": "Entity7",
             "blocktype": "entity",
             "entityname": "ДОП_УСЛУГА_В_ЗАЯВКЕ",
             "description": "Услуга, включенная в заявку КЛИЕНТА",
-            "positionX": 1171,
-            "positionY": 326
+            "positionX": 1011,
+            "positionY": 361
         }
     ],
     "connects": [
@@ -121,6 +121,55 @@
             "target": "Entity8",
             "verb_phrase": "включена как",
             "type": "OneToMany",
+            "description": ""
+        },
+        {
+            "source": "Entity0",
+            "target": "Entity3",
+            "verb_phrase": "Оформляет",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity1",
+            "target": "Entity3",
+            "verb_phrase": "Делает",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity2",
+            "target": "Entity3",
+            "verb_phrase": "включен в",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity4",
+            "target": "Entity3",
+            "verb_phrase": "включает",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity5",
+            "target": "Entity4",
+            "verb_phrase": "включено как",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity6",
+            "target": "Entity7",
+            "verb_phrase": "включена как",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity3",
+            "target": "Entity7",
+            "verb_phrase": "Включает",
+            "type": "Identificate",
             "description": ""
         }
     ]

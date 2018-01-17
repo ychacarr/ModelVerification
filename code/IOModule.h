@@ -44,6 +44,7 @@ namespace INPUT {
 		void readParamStr(std::vector<std::string> &paramstr);
 		void writeParamString(const std::string &FileName, const std::vector<std::string> &paramstr) const;
 		void writeLine(const std::string &FileName, const std::string &strline);
+		bool freset(const std::string &FileName) const;
 	};
 }
 namespace OUTPUT {

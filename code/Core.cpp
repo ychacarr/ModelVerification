@@ -75,7 +75,10 @@ namespace VCORE
 		CorrespLine corrbuff;
 		std::string relstandname, rdrelname;
 		std::vector<std::string> ParamString, StandParamString;
-		bool prmStopCycle = false;
+		unsigned int i = 0;
+		bool nextFlag, stopFlag;
+
+		std::string verfresults = "";
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
@@ -87,7 +90,10 @@ namespace VCORE
 			//TEST CODE START. 
 			//TO DO: переписать код к более приемлемому виду, как только будет написан модуль анализа текста
 			corrbuff.setVerifName(ReadEnt.getName());
-			std::string buf = Analyzer.Analyze(ReadEnt);
+			std::string buf;
+			if (!Analyzer.Analyze(ReadEnt, buf)) 
+				verfresults.append("\nНе найдено соответствие для сущности: " + buf);
+
 			corrbuff.setStandName(buf);
 			if (buf.length() > 0)
 				corrbuff.setParam(Analyzer.GenParam(buf));
@@ -127,6 +133,7 @@ namespace VCORE
 				ReadRelArr[i].setChildEnt(rdrelname);
 			else
 				ReadRelArr[i].setChildEnt(relstandname);
+			
 			#ifdef _DEBUG
 				std::cout << "\nType = " << ReadRelArr[i].getType() << "\nParent = " << ReadRelArr[i].getParentEnt() << "\nChild = " << ReadRelArr[i].getChildEnt() << '\n';
 			#endif // _DEBUG
@@ -148,39 +155,53 @@ namespace VCORE
 		iomodule.setFileName(paramFlName);
 		iomodule.readParamStr(StandParamString);
 
-		if (StandParamString.size() > ParamString.size()) {
-			iomodule.writeLine("txt files/TestVerificationResults.txt", "Подозрение на неполное описание предметной области.");
-			iparamstr = ParamString.size();
-		}
-		else {
-			if (StandParamString.size() < ParamString.size()) {
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Подозрение на избыточность описания предметной области.");
-				iparamstr = StandParamString.size();
+		//Сверка эталона с моделью и удаление из эталона
+		/*
+			while (i != StandParamString.size()) {
+				nextFlag = stopFlag = true;
+				for (unsigned int j = 0; (j < ParamString.size()) && stopFlag; j++) {
+					if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
+						StandParamString.erase(StandParamString.begin() + i);
+						#ifdef _DEBUG
+							std::cout << "\nИтоговый цикл. Из стандартной модели успешно удален элемент: \n" << ParamString.at(j) << '\n';
+							nextFlag = stopFlag = false;
+						#endif // _DEBUG
+					}
+				}
+				if (nextFlag)
+					i++;
 			}
-			else
-				iparamstr = StandParamString.size();
-		}			
+		*/
+		if (ParamString.size() < StandParamString.size())
+			verfresults.append("\nПредупреждение! Возможно проверяемая модель не полностью отображает предметную область.");
 
-		for (unsigned int i = 0; i < iparamstr; i++) {
-			prmStopCycle = false;
-			for (unsigned int j = 0; j < iparamstr && !prmStopCycle; j++) {
-				if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
-					StandParamString.erase(StandParamString.begin() + i);
-					ParamString.erase(ParamString.begin() + j);
-					prmStopCycle = true;
+		while (i != ParamString.size()) {
+			nextFlag = stopFlag = true;
+			for (unsigned int j = 0; (j < StandParamString.size()) && stopFlag; j++) {
+				if (StandParamString.at(j).compare(ParamString.at(i)) == 0) {
+#ifdef _DEBUG
+					std::cout << "\nИтоговый цикл. Из проверяемой модели успешно удален элемент: \n" << ParamString.at(i) << '\n';
+					nextFlag = stopFlag = false;
+#endif // _DEBUG
+					ParamString.erase(ParamString.begin() + i);
 				}
 			}
+			if (nextFlag)
+				i++;
 		}
 
-		if (StandParamString.size() != 0) {
-			for (unsigned int i = 0; i < StandParamString.size(); i++)
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Не представлено в проверяемой модели: " + StandParamString.at(i));
-		}
-
-		if (ParamString.size() != 0) {
+		if (ParamString.size() != 0)
 			for (unsigned int i = 0; i < ParamString.size(); i++)
-				iomodule.writeLine("txt files/TestVerificationResults.txt", "Не найдено соответствий в эталоне для: " + ParamString.at(i));
+				verfresults.append("\nНе удалось соотнести с эталоном: " + findNameFromParam(ParamString.at(i), corrtable));
+		else {
+			verfresults.clear();
+			verfresults.append("\nПроверямая модель точно отображает предметную область.");
 		}
+
+		if (!iomodule.freset("txt files/results/TestVerificationResults.txt"))
+			ERROR::throwError("Error in VerificationCore::start(). Can't open file to write down verifications results.", ID);
+		iomodule.writeLine("txt files/results/TestVerificationResults.txt", verfresults);
+
 		// БЛОК СЧИТЫВАНИЯ СВЯЗЕЙ
 		// DONE :	1) реализовать в модуле считывания функцию считывания кол-ва связей (либо считывать до тех пор, пока не встретили конец файла)
 		//			2) считывая имена сущностей в связях соотносить их с таблицей corrtable
