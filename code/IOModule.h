@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "Relation.h"
 #include <vector>
-
+#include "json.hpp"
 	/*
 	TO DO:
 		1. Модуль вывода информации. Либо изменить текущий модуль INPUT для возможности ввода и вывода информации
@@ -19,9 +19,12 @@ namespace INPUT {
 		static unsigned int Counter;
 		std::string ReadFileName;
 		int FilePos;
+		int RelCount;
 		void opentest() const;
 		void rawread(std::string &rstr, char stop = '\n');
 		void read(const char datatype, std::string &rdstring);
+		using json = nlohmann::json;
+		json j;
 	public:
 		IO();
 		IO(const std::string &fname);
@@ -30,6 +33,7 @@ namespace INPUT {
 		void setFileName(const std::string &fname);
 		int getFilePos() const;
 		unsigned int getID() const;
+		std::string getJSONEntFromID(unsigned int &EntID);
 		bool checkEOF() const;
 		void resetFilePos();
 		void readEntity(MODEL::Entity &inEnt);
@@ -45,6 +49,8 @@ namespace INPUT {
 		void writeParamString(const std::string &FileName, const std::vector<std::string> &paramstr) const;
 		void writeLine(const std::string &FileName, const std::string &strline);
 		bool freset(const std::string &FileName) const;
+
+		
 	};
 }
 namespace OUTPUT {

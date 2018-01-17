@@ -1,37 +1,65 @@
 #include "stdafx.h"
-#include <locale.h>
+//#include <locale.h>
 #include <fstream>
 #include <vector>
+#include <iostream>
+#include <locale>
+#include <codecvt>
 #include "Core.h"
 #include "IOModule.h"
+#include "UsefulFunctions.h"
+
 
 int main(int argc, char** argv)
 {	
-	setlocale(LC_ALL, "RUS");
+	//setlocale(LC_ALL, "UTF-8");
+	
+	//std::locale::global(std::locale("UTF-8"));
 
 	// Управляющий параметр командной строки
 	// s - проверка студенческой модели (student)
 	// t - генерация файла параметров для эталона (teacher)	
-	char controlparam;
+	char controlparam = 's';
+	std::string flname = "Model_1.txt", theme = "Test";
 
-	if (argc > 1)
-		controlparam = argv[1][0];
-	else
-	{
-		printf_s("\n(параметры:\ts - проверка студенческой модели);"
-				"\n(\t\tt - генерация эталонных параметров).\n"
-				"Введите параметр: ");
-		controlparam = getchar();
-		if (controlparam != 's' && controlparam != 't') {
-			printf_s("\nНеизвестный параметр. Параметр по умолчанию - 's'\n");
-			controlparam = 's';
-		}
-	}
+	//if (argc > 1) {
+	//	controlparam = argv[1][0];
+	//	if (argc > 2) {
+	//		flname.clear();
+	//		flname.append(argv[2]);
+	//		if (argc > 3) {
+	//			theme.clear();
+	//			theme.append(argv[3]);
+	//		}
+	//		else
+	//		{
+	//			printf_s("\nError. Usage: ModelFerification.exe file_name theme_name\n");
+	//			system("pause");
+	//			return -1;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	printf_s("\n(параметры:\ts - проверка студенческой модели);"
+	//			"\n(\t\tt - генерация эталонных параметров).\n"
+	//			"Введите параметр: ");
+	//	controlparam = getchar();
+	//	if (controlparam != 's' && controlparam != 't') {
+	//		printf_s("\nНеизвестный параметр. Параметр по умолчанию - 's'\n");
+	//		controlparam = 's';
+	//	}
+	//}
+
+	if (std::string::npos == flname.find_last_of(".txt"))
+		flname.append(".txt");
+
+
 
 	std::fstream FileOut;
 	std::streambuf *save;
 
-	FileOut.open("txt files/results/TestLog.txt", std::ios_base::out);
+	FileOut.open("txt files/results/logfile_" + flname, std::ios_base::out);
 	save = std::cout.rdbuf();
 	std::cout.rdbuf(FileOut.rdbuf());
 
@@ -40,34 +68,30 @@ int main(int argc, char** argv)
 	try {
 		VCORE::VerificationCore MCore;
 
-		if (controlparam == 's') {
-			MCore.setFilename("txt files/TestFile.txt");
-			MCore.setParamFlName("txt files/TestStandardParamStr.txt");
+		MCore.setnamesuffix(flname);
+		MCore.setThemeName(theme);
+
+		if (controlparam == 's')
 			MCore.start();
-		}
 		else
-			if (controlparam == 't') {
-				MCore.setFilename("txt files/TestStandFile.txt");
-				MCore.genStandParam("txt files/TestStandardParamStr.txt");
-			}
+			if (controlparam == 't')
+				MCore.genStandParam();
 	}
 	catch (const char *ErrMSG) {
 		std::cout << '\n' << ErrMSG << '\n';
 		std::cout.rdbuf(save);
 		FileOut.close();
 		if (argc <= 1) {
-			printf_s("\nРабота программы завершена с ошибкой.\n"
-				"Лог выведен в файл /txt files/results/TestLog.txt\n");
+			std::cout << "\nРабота программы завершена с ошибкой.\nЛог выведен в файл /txt files/results/logfile_" + flname << '\n';
 			system("pause");
 		}
 		return -1;
 	}
-
+	std::cout << "\nExit status 0.\n";
 	std::cout.rdbuf(save);
 	FileOut.close();
 	if (argc <= 1) {
-		printf_s("\nРабота программы завершена без ошибок.\n"
-			"Результаты выведены в файл /txt files/results/TestVerificationResults.txt\n");
+		std::cout << "\nРабота программы завершена без ошибок.\nРезультаты выведены в файл /txt files/results/VerifResults_" + flname << '\n';
 		system("pause");
 	}
 

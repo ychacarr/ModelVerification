@@ -3,6 +3,7 @@
 #include "Errors.h"
 #include "Relation.h"
 #include "TextAnalyzer.h"
+#include "UsefulFunctions.h"
 
 namespace VCORE
 {
@@ -11,7 +12,7 @@ namespace VCORE
 	VerificationCore::VerificationCore()
 	{
 		ID = ++Counter;
-		paramFlName = "";
+		themename = "";
 		#ifdef _DEBUG
 			std::cout << "\nVerificationCore(). Object with ID = " << ID << " was created.\n";
 		#endif // _DEBUG
@@ -21,7 +22,8 @@ namespace VCORE
 	{
 		corrtable.clear();
 		paramarr.clear();
-		paramFlName.clear();
+		themename.clear();
+		namesuffix.clear();
 		#ifdef _DEBUG
 			std::cout << "~VerificationCore(). Object with ID = " << ID << " was destroyed.\n";
 		#endif // _DEBUG
@@ -32,37 +34,41 @@ namespace VCORE
 		return ID;
 	}
 
-	void VerificationCore::setParamFlName(const std::string & newparamFl)
+	void VerificationCore::setThemeName(const std::string & nthname)
 	{
-		if (paramFlName.length() != 0) {
-			paramFlName.clear();
-			paramFlName = "";
+		if (nthname.length() == 0)
+			ERROR::throwError("Error in VerificationCore::setThemeName(). New theme name can't be empty!", ID);
+		if (themename.length() != 0)
+			themename.clear();
+		themename.append(nthname);
+		if (corrtable.size() != 0)
+			corrtable.clear();
+		if (paramarr.size() != 0)
+			paramarr.clear();
+	}
+
+	std::string VerificationCore::getThemeName() const
+	{
+		return std::string(themename);
+	}
+
+	void VerificationCore::setnamesuffix(const std::string & nsuffix)
+	{
+		if (nsuffix.length() == 0)
+			ERROR::throwError("Error in VerificationCore::setnamesuffix(). New name suffix can't be empty.", ID);
+		if (namesuffix.length() != 0) {
+			namesuffix.clear();
 		}
-		paramFlName.append(newparamFl);
+		namesuffix.append(nsuffix);
+		if (corrtable.size() != 0)
+			corrtable.clear();
+		if (paramarr.size() != 0)
+			paramarr.clear();
 	}
 
-	std::string VerificationCore::getParamFlName() const
+	std::string VerificationCore::getnamesuffix() const
 	{
-		return std::string(paramFlName);
-	}
-
-	void VerificationCore::reload(const std::string & inFile)
-	{
-		if (paramFlName.length() != 0)
-			paramFlName.clear();
-		iomodule.setFileName(inFile);
-		corrtable.clear();
-		paramarr.clear();
-	}
-
-	std::string VerificationCore::getFilename() const
-	{
-		return std::string(iomodule.getFileName());
-	}
-
-	void VerificationCore::setFilename(const std::string & nfilename)
-	{
-		iomodule.setFileName(nfilename);
+		return std::string(namesuffix);
 	}
 
 	void VerificationCore::start()
@@ -79,6 +85,11 @@ namespace VCORE
 		bool nextFlag, stopFlag;
 
 		std::string verfresults = "";
+		
+		if (themename.length() == 0)
+			ERROR::throwError("Error in VerificationCore::start(). Empty theme name. Set themename first.", ID);
+
+		iomodule.setFileName("txt files/" + namesuffix);
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
@@ -91,7 +102,7 @@ namespace VCORE
 			//TO DO: переписать код к более приемлемому виду, как только будет написан модуль анализа текста
 			corrbuff.setVerifName(ReadEnt.getName());
 			std::string buf;
-			if (!Analyzer.Analyze(ReadEnt, buf)) 
+			if (!Analyzer.Analyze(ReadEnt, themename, buf))
 				verfresults.append("\nНе найдено соответствие для сущности: " + buf);
 
 			corrbuff.setStandName(buf);
@@ -152,26 +163,9 @@ namespace VCORE
 			}
 #endif // _DEBUG
 		
-		iomodule.setFileName(paramFlName);
+		iomodule.setFileName("txt files/StandardParams_" + themename + ".txt");
 		iomodule.readParamStr(StandParamString);
 
-		//Сверка эталона с моделью и удаление из эталона
-		/*
-			while (i != StandParamString.size()) {
-				nextFlag = stopFlag = true;
-				for (unsigned int j = 0; (j < ParamString.size()) && stopFlag; j++) {
-					if (StandParamString.at(i).compare(ParamString.at(j)) == 0) {
-						StandParamString.erase(StandParamString.begin() + i);
-						#ifdef _DEBUG
-							std::cout << "\nИтоговый цикл. Из стандартной модели успешно удален элемент: \n" << ParamString.at(j) << '\n';
-							nextFlag = stopFlag = false;
-						#endif // _DEBUG
-					}
-				}
-				if (nextFlag)
-					i++;
-			}
-		*/
 		if (ParamString.size() < StandParamString.size())
 			verfresults.append("\nПредупреждение! Возможно проверяемая модель не полностью отображает предметную область.");
 
@@ -198,9 +192,9 @@ namespace VCORE
 			verfresults.append("\nПроверямая модель точно отображает предметную область.");
 		}
 
-		if (!iomodule.freset("txt files/results/TestVerificationResults.txt"))
+		if (!iomodule.freset("txt files/results/VerifResults_" + namesuffix))
 			ERROR::throwError("Error in VerificationCore::start(). Can't open file to write down verifications results.", ID);
-		iomodule.writeLine("txt files/results/TestVerificationResults.txt", verfresults);
+		iomodule.writeLine("txt files/results/VerifResults_" + namesuffix, verfresults);
 
 		// БЛОК СЧИТЫВАНИЯ СВЯЗЕЙ
 		// DONE :	1) реализовать в модуле считывания функцию считывания кол-ва связей (либо считывать до тех пор, пока не встретили конец файла)
@@ -219,7 +213,7 @@ namespace VCORE
 		// TO DO
 	}
 
-	void VerificationCore::genStandParam(const std::string & outFileName)
+	void VerificationCore::genStandParam()
 	{
 		MODEL::Entity ReadEnt;
 		MODEL::Relation *ReadRelArr;
@@ -227,6 +221,11 @@ namespace VCORE
 		TXTANALYZE::TxtAnalyzer Analyzer;
 		std::string rdrelname;
 		std::vector<std::string> ParamString;
+
+		if (themename.length() == 0)
+			ERROR::throwError("Error in VerificationCore::genStandParam(). Empty theme name. Set themename first.", ID);
+
+		iomodule.setFileName("txt files/" + namesuffix);
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
@@ -269,7 +268,7 @@ namespace VCORE
 		std::cout << "PARAM STRING:\n";
 		for (unsigned int i = 0; i < ParamString.size(); i++) 
 			std::cout << i << ' ' << ParamString.at(i) << '\n';
-
-		iomodule.writeParamString(outFileName, ParamString);
+		
+		iomodule.writeParamString("txt files/StandardParams_" + themename + ".txt", ParamString);
 	}
 }
