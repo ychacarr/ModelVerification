@@ -1,0 +1,76 @@
+﻿{
+    "project": "idef1x_project",
+    "nodes": [
+        {
+            "blockId": "Entity0",
+            "blocktype": "entity",
+            "entityname": "КОНСУЛЬТАНТ",
+            "description": "Сотрудник, оформляющий и принимающий ЗАЯВКУ от КЛИЕНТА.",
+            "positionX": 224,
+            "positionY": 109
+        },
+        {
+            "blockId": "Entity1",
+            "blocktype": "entity",
+            "entityname": "КЛИЕНТ",
+            "description": "Человек, который подаёт ЗАЯВКУ КОНСУЛЬТАНТУ",
+            "positionX": 492,
+            "positionY": 403
+        },
+        {
+            "blockId": "Entity2",
+            "blocktype": "entity",
+            "entityname": "ЗАЯВКА",
+            "description": "Обращение КЛИЕНТА к КОНСУЛЬТАНТУ, для предоставления УСЛУГ от интернет-провайдера.",
+            "positionX": 492,
+            "positionY": 109
+        },
+        {
+            "blockId": "Entity3",
+            "blocktype": "entity",
+            "entityname": "УСЛУГА",
+            "description": "Деятельность интернет-провайдера, предоставляемая КЛИЕНТУ",
+            "positionX": 880,
+            "positionY": 109
+        },
+        {
+            "blockId": "Entity4",
+            "blocktype": "entity",
+            "entityname": "ОПЦИЯ",
+            "description": "Дополнительный вид УСЛУГ, предоставляемый за дополнительную плату",
+            "positionX": 880,
+            "positionY": 461
+        }
+    ],
+    "connects": [
+        {
+            "source": "Entity0",
+            "target": "Entity2",
+            "verb_phrase": "оформляет",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity2",
+            "target": "Entity3",
+            "verb_phrase": "включает",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity1",
+            "target": "Entity2",
+            "verb_phrase": "подаёт",
+            "type": "Identificate",
+            "description": ""
+        },
+        {
+            "source": "Entity4",
+            "target": "Entity3",
+            "verb_phrase": "включена в",
+            "type": "Identificate",
+            "description": ""
+        }
+    ],
+    "attributes": []
+}

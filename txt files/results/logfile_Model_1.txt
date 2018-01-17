@@ -1,0 +1,298 @@
+
+Control parameter: 's'
+
+IO(). Object with ID = 1 was created.
+
+VerificationCore(). Object with ID = 1 was created.
+
+Entity(). Object with ID = 1 was created.
+
+TxtAnalyzer(). Object with ID = 1 was created.
+
+CorrespLine(). Object with ID = 1 was created.
+
+Sentence TEST.
+ WORD AT 0 = Работник
+
+Sentence TEST.
+ WORD AT 1 = принимающий
+
+Sentence TEST.
+ WORD AT 2 = обращение
+
+Sentence TEST.
+ WORD AT 3 = от
+
+Sentence TEST.
+ WORD AT 4 = заказчика
+
+Работник now analyze.
+Работник analyze end.
+принимающий now analyze.
+принимающий analyze end.
+обращение now analyze.
+обращение analyze end.
+от now analyze.
+от analyze end.
+заказчика now analyze.
+заказчика analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+
+Sentence TEST.
+ WORD AT 0 = Лицо
+
+Sentence TEST.
+ WORD AT 1 = подающее
+
+Sentence TEST.
+ WORD AT 2 = обращение
+
+Лицо now analyze.
+Лицо analyze end.
+подающее now analyze.
+подающее analyze end.
+обращение now analyze.
+обращение analyze end.
+ANALYZE TEST. 
+ ����������� �������� - "Заказчик". �������� � ������� - Клиент
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+Sentence TEST.
+ WORD AT 0 = Заявление
+
+Sentence TEST.
+ WORD AT 1 = заказчика
+
+Sentence TEST.
+ WORD AT 2 = на
+
+Sentence TEST.
+ WORD AT 3 = предоставление
+
+Sentence TEST.
+ WORD AT 4 = сервиса
+
+Sentence TEST.
+ WORD AT 5 = от
+
+Sentence TEST.
+ WORD AT 6 = интернет
+
+Sentence TEST.
+ WORD AT 7 = провайдера
+
+Заявление now analyze.
+Заявление analyze end.
+заказчика now analyze.
+заказчика analyze end.
+на now analyze.
+на analyze end.
+предоставление now analyze.
+предоставление analyze end.
+сервиса now analyze.
+сервиса analyze end.
+от now analyze.
+от analyze end.
+интернет now analyze.
+интернет analyze end.
+провайдера now analyze.
+провайдера analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+Sentence TEST.
+ WORD AT 0 = Деятельность
+
+Sentence TEST.
+ WORD AT 1 = интернет
+
+Sentence TEST.
+ WORD AT 2 = провайдера
+
+Sentence TEST.
+ WORD AT 3 = представляемая
+
+Sentence TEST.
+ WORD AT 4 = заказчику
+
+Деятельность now analyze.
+Деятельность analyze end.
+интернет now analyze.
+интернет analyze end.
+провайдера now analyze.
+провайдера analyze end.
+представляемая now analyze.
+представляемая analyze end.
+заказчику now analyze.
+заказчику analyze end.
+ANALYZE TEST. 
+ ����������� �������� - "УСЛУГА". �������� � ������� - Услуга
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+Sentence TEST.
+ WORD AT 0 = Дополнительный
+
+Sentence TEST.
+ WORD AT 1 = вид
+
+Sentence TEST.
+ WORD AT 2 = УСЛУГ
+
+Sentence TEST.
+ WORD AT 3 = предоставляемый
+
+Sentence TEST.
+ WORD AT 4 = за
+
+Sentence TEST.
+ WORD AT 5 = отдельную
+
+Sentence TEST.
+ WORD AT 6 = плату
+
+Дополнительный now analyze.
+Дополнительный analyze end.
+вид now analyze.
+вид analyze end.
+УСЛУГ now analyze.
+УСЛУГ analyze end.
+предоставляемый now analyze.
+предоставляемый analyze end.
+за now analyze.
+за analyze end.
+отдельную now analyze.
+отдельную analyze end.
+плату now analyze.
+плату analyze end.
+ANALYZE TEST. 
+ FAIL TO ANALYZE.
+~Sentence(). Object with ID = 0 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+
+
+"КОНСУЛЬТАНТ" "КОНСУЛЬТАНТ" "�"24
+"Заказчик" Клиент �Ђ12
+"Обращение" "Обращение" "�"20
+"УСЛУГА" Услуга �Ѱ12
+"ОПЦИЯ" "ОПЦИЯ" "�"12
+
+RelCount = 8
+
+Relation(). Object with ID = 1 was created.
+
+Relation(). Object with ID = 2 was created.
+
+Relation(). Object with ID = 3 was created.
+
+Relation(). Object with ID = 4 was created.
+
+Relation(). Object with ID = 5 was created.
+
+Relation(). Object with ID = 6 was created.
+
+Relation(). Object with ID = 7 was created.
+
+Relation(). Object with ID = 8 was created.
+
+Type = i
+Parent = Клиент
+Child = Услуга
+
+Type = i
+Parent = "Обращение"
+Child = Услуга
+
+Type = i
+Parent = null
+Child = "ОПЦИЯ"
+
+Type = i
+Parent = Услуга
+Child = "ОПЦИЯ"
+
+Type = i
+Parent = "КОНСУЛЬТАНТ"
+Child = "Обращение"
+
+Type = i
+Parent = "Обращение"
+Child = Услуга
+
+Type = i
+Parent = Клиент
+Child = "Обращение"
+
+Type = i
+Parent = "ОПЦИЯ"
+Child = Услуга
+~Relation(). Object with ID = 8 was destroyed.
+~Relation(). Object with ID = 7 was destroyed.
+~Relation(). Object with ID = 6 was destroyed.
+~Relation(). Object with ID = 5 was destroyed.
+~Relation(). Object with ID = 4 was destroyed.
+~Relation(). Object with ID = 3 was destroyed.
+~Relation(). Object with ID = 2 was destroyed.
+~Relation(). Object with ID = 1 was destroyed.
+PARAM STRING:
+0 "�"24
+1 �Ђ12
+2 "�"20
+3 �Ѱ12
+4 "�"12
+5 �Ђ12!�Ѱ12
+6 "�"20!�Ѱ12
+7 nll4!"�"12
+8 �Ѱ12!"�"12
+9 "�"24!"�"20
+10 "�"20!�Ѱ12
+11 �Ђ12!"�"20
+12 "�"12!�Ѱ12
+
+TEST. IO::readParamStr(). rdstring = "�"24
+
+TEST. IO::readParamStr(). rdstring = "�"14
+
+TEST. IO::readParamStr(). rdstring = "�"14
+
+TEST. IO::readParamStr(). rdstring = "�"14
+
+TEST. IO::readParamStr(). rdstring = "�"12
+
+TEST. IO::readParamStr(). rdstring = "�"24!"�"14
+
+TEST. IO::readParamStr(). rdstring = "�"14!"�"14
+
+TEST. IO::readParamStr(). rdstring = "�"14!"�"14
+
+TEST. IO::readParamStr(). rdstring = "�"12!"�"14
+
+�������� ����. �� ����������� ������ ������� ������ �������: 
+"�"24
+
+�������� ����. �� ����������� ������ ������� ������ �������: 
+"�"12
+~CorrespLine. Object with ID = 1 was destroyed.
+~TxtAnalyzer(). Object with ID = 1 was destroyed.
+~Entity(). Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~CorrespLine. Object with ID = 1 was destroyed.
+~VerificationCore(). Object with ID = 1 was destroyed.
+
+~IO(). Object with ID = 1 was destroyed.
+
+Exit status 0.

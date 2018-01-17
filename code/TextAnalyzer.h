@@ -14,7 +14,7 @@ namespace TXTANALYZE
 	public:
 		TxtAnalyzer();
 		~TxtAnalyzer();
-		bool Analyze(const MODEL::Entity & inEnt, std::string & outname);
+		bool Analyze(const MODEL::Entity & inEnt, const std::string & theme, std::string & outname);
 		std::string GenParam(const std::string & inname);
 		std::string GenParam(const MODEL::Entity & inEnt);
 		std::string GenParam(const MODEL::Relation & inRel);
