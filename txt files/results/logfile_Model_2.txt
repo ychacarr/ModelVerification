@@ -1,0 +1,57 @@
+
+Control parameter: 't'
+
+IO(). Object with ID = 1 was created.
+
+VerificationCore(). Object with ID = 1 was created.
+
+Entity(). Object with ID = 1 was created.
+
+TxtAnalyzer(). Object with ID = 1 was created.
+
+RelCount = 4
+
+Relation(). Object with ID = 1 was created.
+
+Relation(). Object with ID = 2 was created.
+
+Relation(). Object with ID = 3 was created.
+
+Relation(). Object with ID = 4 was created.
+
+Type = i
+Parent = "КОНСУЛЬТАНТ"
+Child = "ЗАЯВКА"
+
+Type = i
+Parent = "ЗАЯВКА"
+Child = "УСЛУГА"
+
+Type = i
+Parent = "КЛИЕНТ"
+Child = "ЗАЯВКА"
+
+Type = i
+Parent = "ОПЦИЯ"
+Child = "УСЛУГА"
+~Relation(). Object with ID = 4 was destroyed.
+~Relation(). Object with ID = 3 was destroyed.
+~Relation(). Object with ID = 2 was destroyed.
+~Relation(). Object with ID = 1 was destroyed.
+PARAM STRING:
+0 "�"24
+1 "�"14
+2 "�"14
+3 "�"14
+4 "�"12
+5 "�"24!"�"14
+6 "�"14!"�"14
+7 "�"14!"�"14
+8 "�"12!"�"14
+~TxtAnalyzer(). Object with ID = 1 was destroyed.
+~Entity(). Object with ID = 1 was destroyed.
+~VerificationCore(). Object with ID = 1 was destroyed.
+
+~IO(). Object with ID = 1 was destroyed.
+
+Exit status 0.
