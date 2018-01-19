@@ -1,5 +1,5 @@
 
-Control parameter: 't'
+Control parameter: 't
 
 IO(). Object with ID = 1 was created.
 
@@ -8,6 +8,46 @@ VerificationCore(). Object with ID = 1 was created.
 Entity(). Object with ID = 1 was created.
 
 TxtAnalyzer(). Object with ID = 1 was created.
+
+TEST. IO::readEntity(). EtnName = консультант
+
+TEST. IO::readEntity(). EtnDet = сотрудник, оформляющий и принимающий заявку от клиента.
+
+TEST. TxtAnalyzer::GenParam. inname = консультант
+
+TEST. TxtAnalyzer::GenParam. param = клт11
+
+TEST. IO::readEntity(). EtnName = клиент
+
+TEST. IO::readEntity(). EtnDet = человек, который подаёт заявку консультанту
+
+TEST. TxtAnalyzer::GenParam. inname = клиент
+
+TEST. TxtAnalyzer::GenParam. param = кет6
+
+TEST. IO::readEntity(). EtnName = заявка
+
+TEST. IO::readEntity(). EtnDet = обращение клиента к консультанту, для предоставления услуг от интернет-провайдера.
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
+
+TEST. IO::readEntity(). EtnName = услуга
+
+TEST. IO::readEntity(). EtnDet = деятельность интернет-провайдера, предоставляемая клиенту
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
+
+TEST. IO::readEntity(). EtnName = опция
+
+TEST. IO::readEntity(). EtnDet = дополнительный вид услуг, предоставляемый за дополнительную плату
+
+TEST. TxtAnalyzer::GenParam. inname = опция
+
+TEST. TxtAnalyzer::GenParam. param = оця5
 
 RelCount = 4
 
@@ -20,34 +60,66 @@ Relation(). Object with ID = 3 was created.
 Relation(). Object with ID = 4 was created.
 
 Type = i
-Parent = "КОНСУЛЬТАНТ"
-Child = "ЗАЯВКА"
+Parent = консультант
+Child = заявка
+
+TEST. TxtAnalyzer::GenParam. inname = консультант
+
+TEST. TxtAnalyzer::GenParam. param = клт11
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
 
 Type = i
-Parent = "ЗАЯВКА"
-Child = "УСЛУГА"
+Parent = заявка
+Child = услуга
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
 
 Type = i
-Parent = "КЛИЕНТ"
-Child = "ЗАЯВКА"
+Parent = клиент
+Child = заявка
+
+TEST. TxtAnalyzer::GenParam. inname = клиент
+
+TEST. TxtAnalyzer::GenParam. param = кет6
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
 
 Type = i
-Parent = "ОПЦИЯ"
-Child = "УСЛУГА"
+Parent = опция
+Child = услуга
+
+TEST. TxtAnalyzer::GenParam. inname = опция
+
+TEST. TxtAnalyzer::GenParam. param = оця5
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
 ~Relation(). Object with ID = 4 was destroyed.
 ~Relation(). Object with ID = 3 was destroyed.
 ~Relation(). Object with ID = 2 was destroyed.
 ~Relation(). Object with ID = 1 was destroyed.
 PARAM STRING:
-0 "�"24
-1 "�"14
-2 "�"14
-3 "�"14
-4 "�"12
-5 "�"24!"�"14
-6 "�"14!"�"14
-7 "�"14!"�"14
-8 "�"12!"�"14
+0 клт11
+1 кет6
+2 зва6
+3 ууа6
+4 оця5
+5 клт11ġзва6
+6 зва6ġууа6
+7 кет6ġзва6
+8 оця5ġууа6
 ~TxtAnalyzer(). Object with ID = 1 was destroyed.
 ~Entity(). Object with ID = 1 was destroyed.
 ~VerificationCore(). Object with ID = 1 was destroyed.

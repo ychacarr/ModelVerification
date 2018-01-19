@@ -1,5 +1,5 @@
 
-Control parameter: 's'
+Control parameter: 's
 
 IO(). Object with ID = 1 was created.
 
@@ -11,8 +11,12 @@ TxtAnalyzer(). Object with ID = 1 was created.
 
 CorrespLine(). Object with ID = 1 was created.
 
+TEST. IO::readEntity(). EtnName = консультант
+
+TEST. IO::readEntity(). EtnDet = работник, принимающий обращение от заказчика.
+
 Sentence TEST.
- WORD AT 0 = Работник
+ WORD AT 0 = работник
 
 Sentence TEST.
  WORD AT 1 = принимающий
@@ -26,22 +30,28 @@ Sentence TEST.
 Sentence TEST.
  WORD AT 4 = заказчика
 
-Работник now analyze.
-Работник analyze end.
+работник now analyze.
+работник analyze end.
 принимающий now analyze.
 принимающий analyze end.
 обращение now analyze.
 обращение analyze end.
-от now analyze.
-от analyze end.
 заказчика now analyze.
 заказчика analyze end.
 ANALYZE TEST. 
- FAIL TO ANALYZE.
+ Проверяемая сущность - консультант. Сущность в эталоне - консультант
 ~Sentence(). Object with ID = 0 was destroyed.
 
+TEST. TxtAnalyzer::GenParam. inname = консультант
+
+TEST. TxtAnalyzer::GenParam. param = клт11
+
+TEST. IO::readEntity(). EtnName = заказчик
+
+TEST. IO::readEntity(). EtnDet = лицо, подающее обращение.
+
 Sentence TEST.
- WORD AT 0 = Лицо
+ WORD AT 0 = лицо
 
 Sentence TEST.
  WORD AT 1 = подающее
@@ -49,19 +59,27 @@ Sentence TEST.
 Sentence TEST.
  WORD AT 2 = обращение
 
-Лицо now analyze.
-Лицо analyze end.
+лицо now analyze.
+лицо analyze end.
 подающее now analyze.
 подающее analyze end.
 обращение now analyze.
 обращение analyze end.
 ANALYZE TEST. 
- ����������� �������� - "Заказчик". �������� � ������� - Клиент
+ Проверяемая сущность - заказчик. Сущность в эталоне - клиент
 ~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. TxtAnalyzer::GenParam. inname = клиент
+
+TEST. TxtAnalyzer::GenParam. param = кет6
 ~CorrespLine. Object with ID = 1 was destroyed.
 
+TEST. IO::readEntity(). EtnName = обращение
+
+TEST. IO::readEntity(). EtnDet = заявление заказчика на предоставление сервиса от интернет-провайдера.
+
 Sentence TEST.
- WORD AT 0 = Заявление
+ WORD AT 0 = заявление
 
 Sentence TEST.
  WORD AT 1 = заказчика
@@ -84,30 +102,34 @@ Sentence TEST.
 Sentence TEST.
  WORD AT 7 = провайдера
 
-Заявление now analyze.
-Заявление analyze end.
+заявление now analyze.
+заявление analyze end.
 заказчика now analyze.
 заказчика analyze end.
-на now analyze.
-на analyze end.
 предоставление now analyze.
 предоставление analyze end.
 сервиса now analyze.
 сервиса analyze end.
-от now analyze.
-от analyze end.
 интернет now analyze.
 интернет analyze end.
 провайдера now analyze.
 провайдера analyze end.
 ANALYZE TEST. 
- FAIL TO ANALYZE.
+ Проверяемая сущность - обращение. Сущность в эталоне - заявка
 ~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 
+TEST. IO::readEntity(). EtnName = услуга
+
+TEST. IO::readEntity(). EtnDet = деятельность интернет-провайдера, представляемая заказчику.
+
 Sentence TEST.
- WORD AT 0 = Деятельность
+ WORD AT 0 = деятельность
 
 Sentence TEST.
  WORD AT 1 = интернет
@@ -121,8 +143,8 @@ Sentence TEST.
 Sentence TEST.
  WORD AT 4 = заказчику
 
-Деятельность now analyze.
-Деятельность analyze end.
+деятельность now analyze.
+деятельность analyze end.
 интернет now analyze.
 интернет analyze end.
 провайдера now analyze.
@@ -131,21 +153,28 @@ Sentence TEST.
 представляемая analyze end.
 заказчику now analyze.
 заказчику analyze end.
-ANALYZE TEST. 
- ����������� �������� - "УСЛУГА". �������� � ������� - Услуга
+ANALYZE TEST. In name = услуга. FAIL TO ANALYZE.
 ~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 
+TEST. IO::readEntity(). EtnName = опция
+
+TEST. IO::readEntity(). EtnDet = дополнительный вид услуг, предоставляемый за отдельную плату.
+
 Sentence TEST.
- WORD AT 0 = Дополнительный
+ WORD AT 0 = дополнительный
 
 Sentence TEST.
  WORD AT 1 = вид
 
 Sentence TEST.
- WORD AT 2 = УСЛУГ
+ WORD AT 2 = услуг
 
 Sentence TEST.
  WORD AT 3 = предоставляемый
@@ -159,36 +188,35 @@ Sentence TEST.
 Sentence TEST.
  WORD AT 6 = плату
 
-Дополнительный now analyze.
-Дополнительный analyze end.
-вид now analyze.
-вид analyze end.
-УСЛУГ now analyze.
-УСЛУГ analyze end.
+дополнительный now analyze.
+дополнительный analyze end.
+услуг now analyze.
+услуг analyze end.
 предоставляемый now analyze.
 предоставляемый analyze end.
-за now analyze.
-за analyze end.
 отдельную now analyze.
 отдельную analyze end.
 плату now analyze.
 плату analyze end.
-ANALYZE TEST. 
- FAIL TO ANALYZE.
+ANALYZE TEST. In name = опция. FAIL TO ANALYZE.
 ~Sentence(). Object with ID = 0 was destroyed.
+
+TEST. TxtAnalyzer::GenParam. inname = опция
+
+TEST. TxtAnalyzer::GenParam. param = оця5
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~CorrespLine. Object with ID = 1 was destroyed.
 
 
-"КОНСУЛЬТАНТ" "КОНСУЛЬТАНТ" "�"24
-"Заказчик" Клиент �Ђ12
-"Обращение" "Обращение" "�"20
-"УСЛУГА" Услуга �Ѱ12
-"ОПЦИЯ" "ОПЦИЯ" "�"12
+консультант консультант клт11
+заказчик клиент кет6
+обращение заявка зва6
+услуга услуга ууа6
+опция опция оця5
 
-RelCount = 8
+RelCount = 4
 
 Relation(). Object with ID = 1 was created.
 
@@ -198,91 +226,112 @@ Relation(). Object with ID = 3 was created.
 
 Relation(). Object with ID = 4 was created.
 
-Relation(). Object with ID = 5 was created.
-
-Relation(). Object with ID = 6 was created.
-
-Relation(). Object with ID = 7 was created.
-
-Relation(). Object with ID = 8 was created.
+Type = i
+Parent = консультант
+Child = заявка
 
 Type = i
-Parent = Клиент
-Child = Услуга
+Parent = заявка
+Child = услуга
 
 Type = i
-Parent = "Обращение"
-Child = Услуга
+Parent = клиент
+Child = заявка
 
 Type = i
-Parent = null
-Child = "ОПЦИЯ"
+Parent = опция
+Child = услуга
 
-Type = i
-Parent = Услуга
-Child = "ОПЦИЯ"
+TEST. TxtAnalyzer::GenParam. inname = консультант
 
-Type = i
-Parent = "КОНСУЛЬТАНТ"
-Child = "Обращение"
+TEST. TxtAnalyzer::GenParam. param = клт11
 
-Type = i
-Parent = "Обращение"
-Child = Услуга
+TEST. TxtAnalyzer::GenParam. inname = заявка
 
-Type = i
-Parent = Клиент
-Child = "Обращение"
+TEST. TxtAnalyzer::GenParam. param = зва6
 
-Type = i
-Parent = "ОПЦИЯ"
-Child = Услуга
-~Relation(). Object with ID = 8 was destroyed.
-~Relation(). Object with ID = 7 was destroyed.
-~Relation(). Object with ID = 6 was destroyed.
-~Relation(). Object with ID = 5 was destroyed.
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
+
+TEST. TxtAnalyzer::GenParam. inname = клиент
+
+TEST. TxtAnalyzer::GenParam. param = кет6
+
+TEST. TxtAnalyzer::GenParam. inname = заявка
+
+TEST. TxtAnalyzer::GenParam. param = зва6
+
+TEST. TxtAnalyzer::GenParam. inname = опция
+
+TEST. TxtAnalyzer::GenParam. param = оця5
+
+TEST. TxtAnalyzer::GenParam. inname = услуга
+
+TEST. TxtAnalyzer::GenParam. param = ууа6
 ~Relation(). Object with ID = 4 was destroyed.
 ~Relation(). Object with ID = 3 was destroyed.
 ~Relation(). Object with ID = 2 was destroyed.
 ~Relation(). Object with ID = 1 was destroyed.
 PARAM STRING:
-0 "�"24
-1 �Ђ12
-2 "�"20
-3 �Ѱ12
-4 "�"12
-5 �Ђ12!�Ѱ12
-6 "�"20!�Ѱ12
-7 nll4!"�"12
-8 �Ѱ12!"�"12
-9 "�"24!"�"20
-10 "�"20!�Ѱ12
-11 �Ђ12!"�"20
-12 "�"12!�Ѱ12
+0 клт11
+1 кет6
+2 зва6
+3 ууа6
+4 оця5
+5 клт11ġзва6
+6 зва6ġууа6
+7 кет6ġзва6
+8 оця5ġууа6
 
-TEST. IO::readParamStr(). rdstring = "�"24
+TEST. IO::readParamStr(). rdstring = клт11
 
-TEST. IO::readParamStr(). rdstring = "�"14
+TEST. IO::readParamStr(). rdstring = кет6
 
-TEST. IO::readParamStr(). rdstring = "�"14
+TEST. IO::readParamStr(). rdstring = зва6
 
-TEST. IO::readParamStr(). rdstring = "�"14
+TEST. IO::readParamStr(). rdstring = ууа6
 
-TEST. IO::readParamStr(). rdstring = "�"12
+TEST. IO::readParamStr(). rdstring = оця5
 
-TEST. IO::readParamStr(). rdstring = "�"24!"�"14
+TEST. IO::readParamStr(). rdstring = клт11ġзва6
 
-TEST. IO::readParamStr(). rdstring = "�"14!"�"14
+TEST. IO::readParamStr(). rdstring = зва6ġууа6
 
-TEST. IO::readParamStr(). rdstring = "�"14!"�"14
+TEST. IO::readParamStr(). rdstring = кет6ġзва6
 
-TEST. IO::readParamStr(). rdstring = "�"12!"�"14
+TEST. IO::readParamStr(). rdstring = оця5ġууа6
 
-�������� ����. �� ����������� ������ ������� ������ �������: 
-"�"24
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+клт11
 
-�������� ����. �� ����������� ������ ������� ������ �������: 
-"�"12
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+кет6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+зва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+ууа6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+оця5
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+клт11ġзва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+зва6ġууа6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+кет6ġзва6
+
+Итоговый цикл. Из проверяемой модели успешно удален элемент: 
+оця5ġууа6
 ~CorrespLine. Object with ID = 1 was destroyed.
 ~TxtAnalyzer(). Object with ID = 1 was destroyed.
 ~Entity(). Object with ID = 1 was destroyed.
