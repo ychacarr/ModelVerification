@@ -12,9 +12,9 @@ namespace VCORE
 	VerificationCore::VerificationCore()
 	{
 		ID = ++Counter;
-		themename = "";
+		themename = L"";
 		#ifdef _DEBUG
-			std::cout << "\nVerificationCore(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nVerificationCore(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
@@ -25,7 +25,7 @@ namespace VCORE
 		themename.clear();
 		namesuffix.clear();
 		#ifdef _DEBUG
-			std::cout << "~VerificationCore(). Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~VerificationCore(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 
@@ -34,10 +34,10 @@ namespace VCORE
 		return ID;
 	}
 
-	void VerificationCore::setThemeName(const std::string & nthname)
+	void VerificationCore::setThemeName(const std::wstring & nthname)
 	{
 		if (nthname.length() == 0)
-			ERROR::throwError("Error in VerificationCore::setThemeName(). New theme name can't be empty!", ID);
+			ERROR::throwError(L"Error in VerificationCore::setThemeName(). New theme name can't be empty!", ID);
 		if (themename.length() != 0)
 			themename.clear();
 		themename.append(nthname);
@@ -47,15 +47,15 @@ namespace VCORE
 			paramarr.clear();
 	}
 
-	std::string VerificationCore::getThemeName() const
+	std::wstring VerificationCore::getThemeName() const
 	{
-		return std::string(themename);
+		return std::wstring(themename);
 	}
 
-	void VerificationCore::setnamesuffix(const std::string & nsuffix)
+	void VerificationCore::setnamesuffix(const std::wstring & nsuffix)
 	{
 		if (nsuffix.length() == 0)
-			ERROR::throwError("Error in VerificationCore::setnamesuffix(). New name suffix can't be empty.", ID);
+			ERROR::throwError(L"Error in VerificationCore::setnamesuffix(). New name suffix can't be empty.", ID);
 		if (namesuffix.length() != 0) {
 			namesuffix.clear();
 		}
@@ -66,9 +66,9 @@ namespace VCORE
 			paramarr.clear();
 	}
 
-	std::string VerificationCore::getnamesuffix() const
+	std::wstring VerificationCore::getnamesuffix() const
 	{
-		return std::string(namesuffix);
+		return std::wstring(namesuffix);
 	}
 
 	void VerificationCore::start()
@@ -79,21 +79,21 @@ namespace VCORE
 		unsigned int iparamstr = 0;
 		TXTANALYZE::TxtAnalyzer Analyzer;
 		CorrespLine corrbuff;
-		std::string relstandname, rdrelname;
-		std::vector<std::string> ParamString, StandParamString;
+		std::wstring relstandname, rdrelname;
+		std::vector<std::wstring> ParamString, StandParamString;
 		unsigned int i = 0;
 		bool nextFlag, stopFlag;
 
-		std::string verfresults = "";
+		std::wstring verfresults = L"";
 		
 		if (themename.length() == 0)
-			ERROR::throwError("Error in VerificationCore::start(). Empty theme name. Set themename first.", ID);
+			ERROR::throwError(L"Error in VerificationCore::start(). Empty theme name. Set themename first.", ID);
 
-		iomodule.setFileName("txt files/" + namesuffix);
+		iomodule.setFileName(L"txt files/" + namesuffix);
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
-			ERROR::throwError("Error in VerificationCore::start(). Input entity count can't be <= 0. Check input file.", ID);
+			ERROR::throwError(L"Error in VerificationCore::start(). Input entity count can't be <= 0. Check input file.", ID);
 
 		for (int i = 0; i < EntCount; i++)
 		{
@@ -101,33 +101,33 @@ namespace VCORE
 			//TEST CODE START. 
 			//TO DO: переписать код к более приемлемому виду, как только будет написан модуль анализа текста
 			corrbuff.setVerifName(ReadEnt.getName());
-			std::string buf;
+			std::wstring buf;
 			if (!Analyzer.Analyze(ReadEnt, themename, buf))
-				verfresults.append("\nНе найдено соответствие для сущности: " + buf);
+				verfresults.append(L"\nНе найдено соответствие для сущности: " + buf);
 
 			corrbuff.setStandName(buf);
 			if (buf.length() > 0)
 				corrbuff.setParam(Analyzer.GenParam(buf));
 			else
-				corrbuff.setParam("\0");
+				corrbuff.setParam(L"\0");
 			
 			corrtable.push_back(corrbuff);
 			//TEST CODE END.
 		}
 		#ifdef _DEBUG
-			std::cout << "\n\n";
+			std::wcout << L"\n\n";
 			for (unsigned int i = 0; i < corrtable.size(); i++)
-				std::cout << corrtable.at(i).getVerifName() << ' ' << corrtable.at(i).getStandardName() << ' ' << corrtable.at(i).getParam() << '\n';
+				std::wcout << corrtable.at(i).getVerifName() << ' ' << corrtable.at(i).getStandardName() << ' ' << corrtable.at(i).getParam() << L'\n';
 		#endif // _DEBUG
 		iomodule.readRelCount(RelCount);
 
 		#ifdef _DEBUG
-			std::cout << "\nRelCount = " << RelCount << '\n';
+			std::wcout << L"\nRelCount = " << RelCount << L'\n';
 		#endif // _DEBUG
 		ReadRelArr = new MODEL::Relation[RelCount];
 
 		for (int i = 0; i < RelCount; i++) {
-			char rdtype;
+			wchar_t rdtype;
 			iomodule.readRelType(rdtype);
 			ReadRelArr[i].setType(rdtype);
 
@@ -146,7 +146,7 @@ namespace VCORE
 				ReadRelArr[i].setChildEnt(relstandname);
 			
 			#ifdef _DEBUG
-				std::cout << "\nType = " << ReadRelArr[i].getType() << "\nParent = " << ReadRelArr[i].getParentEnt() << "\nChild = " << ReadRelArr[i].getChildEnt() << '\n';
+				std::wcout << L"\nType = " << ReadRelArr[i].getType() << L"\nParent = " << ReadRelArr[i].getParentEnt() << L"\nChild = " << ReadRelArr[i].getChildEnt() << L'\n';
 			#endif // _DEBUG
 		}
 
@@ -157,24 +157,24 @@ namespace VCORE
 
 		delete[] ReadRelArr;
 #ifdef _DEBUG
-			std::cout << "PARAM STRING:\n";
+			std::wcout << L"PARAM STRING:\n";
 			for (unsigned int i = 0; i < ParamString.size(); i++){
-				std::cout << i << ' ' << ParamString.at(i) << '\n';
+				std::wcout << i << L' ' << ParamString.at(i) << L'\n';
 			}
 #endif // _DEBUG
 		
-		iomodule.setFileName("txt files/StandardParams_" + themename + ".txt");
+		iomodule.setFileName(L"txt files/StandardParams_" + themename + L".txt");
 		iomodule.readParamStr(StandParamString);
 
 		if (ParamString.size() < StandParamString.size())
-			verfresults.append("\nПредупреждение! Возможно проверяемая модель не полностью отображает предметную область.");
+			verfresults.append(L"\nПредупреждение! Возможно проверяемая модель не полностью отображает предметную область.");
 
 		while (i != ParamString.size()) {
 			nextFlag = stopFlag = true;
 			for (unsigned int j = 0; (j < StandParamString.size()) && stopFlag; j++) {
 				if (StandParamString.at(j).compare(ParamString.at(i)) == 0) {
 #ifdef _DEBUG
-					std::cout << "\nИтоговый цикл. Из проверяемой модели успешно удален элемент: \n" << ParamString.at(i) << '\n';
+					std::wcout << L"\nИтоговый цикл. Из проверяемой модели успешно удален элемент: \n" << ParamString.at(i) << L'\n';
 					nextFlag = stopFlag = false;
 #endif // _DEBUG
 					ParamString.erase(ParamString.begin() + i);
@@ -186,15 +186,15 @@ namespace VCORE
 
 		if (ParamString.size() != 0)
 			for (unsigned int i = 0; i < ParamString.size(); i++)
-				verfresults.append("\nНе удалось соотнести с эталоном: " + findNameFromParam(ParamString.at(i), corrtable));
+				verfresults.append(L"\nНе удалось соотнести с эталоном: " + findNameFromParam(ParamString.at(i), corrtable));
 		else {
 			verfresults.clear();
-			verfresults.append("\nПроверямая модель точно отображает предметную область.");
+			verfresults.append(L"\nПроверямая модель точно отображает предметную область.");
 		}
 
-		if (!iomodule.freset("txt files/results/VerifResults_" + namesuffix))
-			ERROR::throwError("Error in VerificationCore::start(). Can't open file to write down verifications results.", ID);
-		iomodule.writeLine("txt files/results/VerifResults_" + namesuffix, verfresults);
+		if (!iomodule.freset(L"txt files/results/VerifResults_" + namesuffix))
+			ERROR::throwError(L"Error in VerificationCore::start(). Can't open file to write down verifications results.", ID);
+		iomodule.writeLine(L"txt files/results/VerifResults_" + namesuffix, verfresults);
 
 		// БЛОК СЧИТЫВАНИЯ СВЯЗЕЙ
 		// DONE :	1) реализовать в модуле считывания функцию считывания кол-ва связей (либо считывать до тех пор, пока не встретили конец файла)
@@ -219,17 +219,17 @@ namespace VCORE
 		MODEL::Relation *ReadRelArr;
 		int EntCount = 0, RelCount = 0;
 		TXTANALYZE::TxtAnalyzer Analyzer;
-		std::string rdrelname;
-		std::vector<std::string> ParamString;
+		std::wstring rdrelname;
+		std::vector<std::wstring> ParamString;
 
 		if (themename.length() == 0)
-			ERROR::throwError("Error in VerificationCore::genStandParam(). Empty theme name. Set themename first.", ID);
+			ERROR::throwError(L"Error in VerificationCore::genStandParam(). Empty theme name. Set themename first.", ID);
 
-		iomodule.setFileName("txt files/" + namesuffix);
+		iomodule.setFileName(L"txt files/" + namesuffix);
 
 		iomodule.readEntCount(EntCount);
 		if (EntCount <= 0)
-			ERROR::throwError("Error in VerificationCore::genStandParam(). Input entity count can't be <= 0. Check input file.", ID);
+			ERROR::throwError(L"Error in VerificationCore::genStandParam(). Input entity count can't be <= 0. Check input file.", ID);
 
 		for (int i = 0; i < EntCount; i++)
 		{
@@ -239,12 +239,12 @@ namespace VCORE
 
 		iomodule.readRelCount(RelCount);
 
-		std::cout << "\nRelCount = " << RelCount << '\n';
+		std::wcout << L"\nRelCount = " << RelCount << L'\n';
 
 		ReadRelArr = new MODEL::Relation[RelCount];
 
 		for (int i = 0; i < RelCount; i++) {
-			char rdtype;
+			wchar_t rdtype;
 			iomodule.readRelType(rdtype);
 			ReadRelArr[i].setType(rdtype);
 
@@ -253,7 +253,7 @@ namespace VCORE
 			iomodule.readRelChildEnt(rdrelname);
 			ReadRelArr[i].setChildEnt(rdrelname);
 
-			std::cout << "\nType = " << ReadRelArr[i].getType() << "\nParent = " << ReadRelArr[i].getParentEnt() << "\nChild = " << ReadRelArr[i].getChildEnt() << '\n';
+			std::wcout << L"\nType = " << ReadRelArr[i].getType() << L"\nParent = " << ReadRelArr[i].getParentEnt() << L"\nChild = " << ReadRelArr[i].getChildEnt() << L'\n';
 			ParamString.push_back(Analyzer.GenParam(ReadRelArr[i]));
 		}
 		delete[] ReadRelArr;
@@ -265,10 +265,10 @@ namespace VCORE
 				1. Запись строки параметров в файл
 		*/
 
-		std::cout << "PARAM STRING:\n";
+		std::wcout << L"PARAM STRING:\n";
 		for (unsigned int i = 0; i < ParamString.size(); i++) 
-			std::cout << i << ' ' << ParamString.at(i) << '\n';
+			std::wcout << i << L' ' << ParamString.at(i) << L'\n';
 		
-		iomodule.writeParamString("txt files/StandardParams_" + themename + ".txt", ParamString);
+		iomodule.writeParamString(L"txt files/StandardParams_" + themename + L".txt", ParamString);
 	}
 }

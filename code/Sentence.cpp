@@ -10,17 +10,17 @@ namespace TXTANALYZE
 	{
 		ID = ++Counter;
 		#ifdef _DEBUG
-			std::cout << "\nSentence(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nSentence(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
-	Sentence::Sentence(const std::string & instr, const char rdparam)
+	Sentence::Sentence(const std::wstring & instr, const wchar_t rdparam)
 	{
 		if (instr.length() == 0)
-			ERROR::throwError("Error in Sentence::Sentence(). Input string can't be empty.", ID);
-		std::string lowerstr;
+			ERROR::throwError(L"Error in Sentence::Sentence(). Input string can't be empty.", ID);
+		std::wstring lowerstr;
 		for (unsigned int i = 0; i < instr.length(); i++) {
-			if (instr.at(i) != ' ' && iswpunct(instr.at(i)) == 0)
+			if (instr.at(i) != L' ' && iswpunct(instr.at(i)) == 0)
 				lowerstr += tolower(instr.at(i));
 			else 
 				if (lowerstr.length() > 0) {
@@ -30,7 +30,7 @@ namespace TXTANALYZE
 		}
 		#ifdef _DEBUG
 			for (unsigned int i = 0; i < words.size(); i++)
-				std::cout << "\nSentence TEST.\n WORD AT " << i << " = " << words.at(i) << '\n';
+				std::wcout << L"\nSentence TEST.\n WORD AT " << i << L" = " << words.at(i) << L'\n';
 		#endif // _DEBUG
 	}
 
@@ -39,14 +39,14 @@ namespace TXTANALYZE
 		return words.size();
 	}
 
-	std::string Sentence::getWord(unsigned int wnum)
+	std::wstring Sentence::getWord(unsigned int wnum)
 	{
 		if (wnum > words.size())
-			ERROR::throwError("Error in Sentence::getWord(). Incorrect input word number.", ID);
-		return std::string(words.at(wnum));
+			ERROR::throwError(L"Error in Sentence::getWord(). Incorrect input word number.", ID);
+		return std::wstring(words.at(wnum));
 	}
 	
-	void Sentence::pushword(const std::string & newword)
+	void Sentence::pushword(const std::wstring & newword)
 	{
 		words.push_back(newword);
 	}
@@ -56,7 +56,7 @@ namespace TXTANALYZE
 		if (words.size() != 0)
 			words.clear();
 		#ifdef _DEBUG
-			std::cout << "~Sentence(). Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~Sentence(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 }

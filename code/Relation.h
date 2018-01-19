@@ -10,20 +10,20 @@ namespace MODEL
 	private:
 		unsigned int ID;
 		static unsigned int Counter;
-		char type;
-		std::string parentEnt;
-		std::string childEnt;
-		void setStrField(const char fname, const std::string & newvalue);
+		wchar_t type;
+		std::wstring parentEnt;
+		std::wstring childEnt;
+		void setStrField(const wchar_t fname, const std::wstring & newvalue);
 	public:
 		Relation();
 		~Relation();
 		unsigned int getID() const;
-		char getType() const;
-		void setType(const char newtype);
-		std::string getParentEnt() const;
-		std::string getChildEnt() const;
-		void setParentEnt(const std::string & newparent);
-		void setChildEnt(const std::string & newchild);
+		wchar_t getType() const;
+		void setType(const wchar_t newtype);
+		std::wstring getParentEnt() const;
+		std::wstring getChildEnt() const;
+		void setParentEnt(const std::wstring & newparent);
+		void setChildEnt(const std::wstring & newchild);
 	};
 }
 #endif // !H_REL

@@ -13,11 +13,11 @@ namespace VCORE
 		unsigned int ID;
 		static unsigned int Counter;
 		std::vector<CorrespLine> corrtable;
-		std::vector<std::string> paramarr;
+		std::vector<std::wstring> paramarr;
 		//std::string paramFlName;
 		INPUT::IO iomodule;
-		std::string namesuffix;
-		std::string themename;
+		std::wstring namesuffix;
+		std::wstring themename;
 	public:
 		VerificationCore();
 		//VerificationCore(const std::string & theme, const std::string & inFile);
@@ -25,10 +25,10 @@ namespace VCORE
 		unsigned int getID() const;
 		void start();
 		void genStandParam();
-		void setnamesuffix(const std::string & nsuffix);
-		std::string getnamesuffix() const;
-		void setThemeName(const std::string & nthemename);
-		std::string getThemeName() const;
+		void setnamesuffix(const std::wstring & nsuffix);
+		std::wstring getnamesuffix() const;
+		void setThemeName(const std::wstring & nthemename);
+		std::wstring getThemeName() const;
 	};
 }
 #endif // !H_VCORE

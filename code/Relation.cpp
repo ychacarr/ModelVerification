@@ -10,10 +10,10 @@ namespace MODEL
 	{
 		ID = ++Counter;
 		type = 0;
-		parentEnt = "";
-		childEnt = "";
+		parentEnt = L"";
+		childEnt = L"";
 		#ifdef _DEBUG
-			std::cout << "\nRelation(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nRelation(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
@@ -22,28 +22,28 @@ namespace MODEL
 		parentEnt.clear();
 		childEnt.clear();
 		#ifdef _DEBUG
-			std::cout << "~Relation(). Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~Relation(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 
-	void Relation::setStrField(const char fname, const std::string &newvalue)
+	void Relation::setStrField(const wchar_t fname, const std::wstring &newvalue)
 	{
 		if (newvalue.length() == 0)
-			ERROR::throwError("Error in Relation::setField(). New field value can't be empty.", ID);
+			ERROR::throwError(L"Error in Relation::setField(). New field value can't be empty.", ID);
 		switch (fname)
 		{
-			case 'P':
+			case L'P':
 				if (parentEnt.length() != 0)
 					parentEnt.clear();
 				parentEnt.append(newvalue);
 			break;
-			case 'C':
+			case L'C':
 				if (childEnt.length() != 0)
 					childEnt.clear();
 				childEnt.append(newvalue);
 			break;
 			default:
-				ERROR::throwError("Error in Relation::setStrField(). Incorrect field name.", ID);
+				ERROR::throwError(L"Error in Relation::setStrField(). Incorrect field name.", ID);
 			break;
 		}
 	}
@@ -53,36 +53,36 @@ namespace MODEL
 		return ID;
 	}
 
-	char Relation::getType() const
+	wchar_t Relation::getType() const
 	{
 		return type;
 	}
 
-	void Relation::setType(const char newtype)
+	void Relation::setType(const wchar_t newtype)
 	{
 		if (newtype != IDENT && newtype != NONIDENT && newtype != MANYTOMANY)
-			ERROR::throwError("Error in Relation::setType(). Unknown type.", ID);
+			ERROR::throwError(L"Error in Relation::setType(). Unknown type.", ID);
 		type = newtype;
 	}
 
-	std::string Relation::getParentEnt() const
+	std::wstring Relation::getParentEnt() const
 	{
-		return std::string(parentEnt);
+		return std::wstring(parentEnt);
 	}
 
-	std::string Relation::getChildEnt() const
+	std::wstring Relation::getChildEnt() const
 	{
-		return std::string(childEnt);
+		return std::wstring(childEnt);
 	}
 
-	void Relation::setParentEnt(const std::string &newparent)
+	void Relation::setParentEnt(const std::wstring &newparent)
 	{
-		setStrField('P', newparent);
+		setStrField(L'P', newparent);
 	}
 
-	void Relation::setChildEnt(const std::string &newchild)
+	void Relation::setChildEnt(const std::wstring &newchild)
 	{
-		setStrField('C', newchild);
+		setStrField(L'C', newchild);
 	}
 
 }

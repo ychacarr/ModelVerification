@@ -5,9 +5,11 @@
 namespace USEFUNC
 {
 
-	int strToint(const std::string &instr);
-	unsigned int strTouint(const std::string &instr);
-	std::string intTostr(int num);
+	int strToint(const std::wstring &instr);
+	unsigned int strTouint(const std::wstring &instr);
+	std::wstring intTostr(int num);
+	void editalltolower(std::wstring &inwstr);
+	std::wstring cpyalltolower(const std::wstring &inwstr);
 
 }
 #endif // !H_USEFULFUNC

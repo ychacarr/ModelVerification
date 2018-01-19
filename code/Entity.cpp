@@ -9,10 +9,10 @@ namespace MODEL {
 	Entity::Entity()
 	{
 		ID = ++Counter;
-		Name = "";
-		Determ = "";
+		Name = L"";
+		Determ = L"";
 		#ifdef _DEBUG
-			std::cout << "\nEntity(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nEntity(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
@@ -21,50 +21,50 @@ namespace MODEL {
 		Name.clear();
 		Determ.clear();
 		#ifdef _DEBUG
-			std::cout << "~Entity(). Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~Entity(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 
-	void Entity::setField(const char fname, const std::string &newvalue)
+	void Entity::setField(const wchar_t fname, const std::wstring &newvalue)
 	{
 		if (newvalue.length() == 0)
-			ERROR::throwError("Error in Entity::setField(). New field value can't be empty.", ID);
+			ERROR::throwError(L"Error in Entity::setField(). New field value can't be empty.", ID);
 		switch (fname)
 		{
-			case 'N':
+			case L'N':
 				if (Name.length() != 0)
 					Name.clear();
 				Name.append(newvalue);
 			break;
-			case 'D':
+			case L'D':
 				if (Determ.length() != 0)
 					Determ.clear();
 				Determ.append(newvalue);
 			break;
 			default:
-				ERROR::throwError("Error in Entity::setField(). Incorrect filed name.", ID);
+				ERROR::throwError(L"Error in Entity::setField(). Incorrect filed name.", ID);
 			break;
 		}
 	}
 
-	std::string Entity::getName() const
+	std::wstring Entity::getName() const
 	{
-		return std::string(Name);
+		return std::wstring(Name);
 	}
 
-	void Entity::setName(const std::string &newname)
+	void Entity::setName(const std::wstring &newname)
 	{
-		setField('N', newname);
+		setField(L'N', newname);
 	}
 
-	std::string Entity::getDeterm() const
+	std::wstring Entity::getDeterm() const
 	{
-		return std::string(Determ);
+		return std::wstring(Determ);
 	}
 
-	void Entity::setDeterm(const std::string &newdeterm)
+	void Entity::setDeterm(const std::wstring &newdeterm)
 	{
-		setField('D', newdeterm);
+		setField(L'D', newdeterm);
 	}
 
 	unsigned int Entity::getID() const

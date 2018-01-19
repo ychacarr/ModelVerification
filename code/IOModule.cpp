@@ -7,33 +7,53 @@
 
 namespace INPUT {
 
+	//
+	// 2 functions (ws2s, s2ws) from https://stackoverflow.com/questions/4804298/how-to-convert-wstring-into-string
+	//
+	std::string ws2s(const std::wstring& wstr)
+	{
+		using convert_typeX = std::codecvt_utf8<wchar_t>;
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.to_bytes(wstr);
+	}
+
+	std::wstring s2ws(const std::string& str)
+	{
+		using convert_typeX = std::codecvt_utf8<wchar_t>;
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.from_bytes(str);
+	}
+
 	unsigned int IO::Counter = 0;
 
 	//
 	//
-	// Done:	НАПИСАТЬ МЕТОД ДЛЯ НОРМАЛЬНОГО СЧИТЫВАНИЯ И ФОРМИРОВАНИЯ string из ФАЙЛА. Что то вроде rawread(std::string rstr)
-	//
+	// To do: 
+	//		1. Убрать лишние методы. Оставить только необходимые
+	//		2. Проверять файлы на наличие BOM в UTF-8. (отсутствие проверки приводит к тому, что при считывании появляются "пустые" символы)
 	//
 
 	IO::IO()
 	{
 		ID = ++Counter;
-		ReadFileName = "";
+		ReadFileName = L"";
 		FilePos = 0;
 		RelCount = 0;
 #ifdef _DEBUG
-		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
+		std::wcout << L"\nIO(). Object with ID = " << ID << L" was created.\n";
 #endif // _DEBUG
 	}
 
-	IO::IO(const std::string & fname)
+	IO::IO(const std::wstring & fname)
 	{
 		ID = ++Counter;
 		ReadFileName = fname;
 		FilePos = 0;
 		RelCount = 0;
 #ifdef _DEBUG
-		std::cout << "\nIO(). Object with ID = " << ID << " was created.\n";
+		std::wcout << L"\nIO(). Object with ID = " << ID << L" was created.\n";
 #endif // _DEBUG		
 	}
 
@@ -41,27 +61,41 @@ namespace INPUT {
 	{
 		ReadFileName.clear();
 #ifdef _DEBUG
-		std::cout << "\n~IO(). Object with ID = " << ID << " was destroyed.\n";
+		std::wcout << L"\n~IO(). Object with ID = " << ID << L" was destroyed.\n";
 #endif // _DEBUG
 	}
 
-	std::string IO::getFileName() const
+	std::wstring IO::getFileName() const
 	{
-		return std::string(ReadFileName);
+		return std::wstring(ReadFileName);
 	}
 
-	void IO::setFileName(const std::string & fname)
+	void IO::setFileName(const std::wstring & fname)
 	{
 		if (FilePos != 0) {
 			ReadFileName.clear();
 			FilePos = 0;
+			trueFilePos = NULL;
 		}
 		ReadFileName.append(fname);
-		std::ifstream i(ReadFileName);
-		std::string TEST;
+		std::wifstream FileIn(ReadFileName);
+		FileIn.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
+		std::wstring wstrforFl;
+		std::string strforJs;
+		wchar_t symb;
+
+		while (!FileIn.eof()) {
+			symb = FileIn.get();
+			wstrforFl += symb;
+		}
+		FileIn.close();
+		strforJs = ws2s(wstrforFl);	
+		std::stringstream strstream;
+		strstream << strforJs;
+		strstream >> j;
+		strstream.clear();
 		//i >> TEST;
-		i >> j;
-		i.close();
+		//FileIn >> j;
 	}
 
 	int IO::getFilePos() const
@@ -74,13 +108,17 @@ namespace INPUT {
 		return ID;
 	}
 
-	std::string IO::getJSONEntFromID(unsigned int & EntID)
+	std::wstring IO::getJSONEntFromID(unsigned int & EntID)
 	{
-		std::string entName;
-		entName = j["nodes"][EntID]["entityname"].dump();
-		//entName.erase(entName.begin());
-		//entName.erase(entName.end() - 1);
-		return std::string(entName);
+		std::wstring wentName;
+		std::string sentName;
+		sentName = j["nodes"][EntID]["entityname"].dump();
+		wentName = s2ws(sentName);
+
+		while (wentName.find(L'"') != std::wstring::npos)
+			wentName.erase(wentName.find(L'"'), 1);
+		USEFUNC::editalltolower(wentName);
+		return std::wstring(wentName);
 	}
 
 	bool IO::checkEOF() const
@@ -93,72 +131,74 @@ namespace INPUT {
 	void IO::resetFilePos()
 	{
 		FilePos = 0;
+		trueFilePos = NULL;
 	}
 
 	void IO::opentest() const
 	{
 		if (ReadFileName.length() == 0)
-			ERROR::throwError("Error in IO. ReadFileName is empty.", ID);
+			ERROR::throwError(L"Error in IO. ReadFileName is empty.", ID);
 		if (checkEOF())
-			ERROR::throwError("Error in IO. Unexpected end of file.", ID);
-		std::ifstream InFile;
+			ERROR::throwError(L"Error in IO. Unexpected end of file.", ID);
+		std::wifstream InFile;
 		InFile.open(ReadFileName);
 		if (!InFile.is_open())
-			ERROR::throwError("Error in IO. Can't open the file.", ID);
+			ERROR::throwError(L"Error in IO. Can't open the file.", ID);
 		InFile.close();
 	}
 
-	void IO::rawread(std::string & rstr, char stop)
+	void IO::rawread(std::wstring & rstr, wchar_t stop)
 	{
 		opentest();
-		std::ifstream InFile;
-		char symb;
+		std::wifstream InFile;
+		wchar_t symb;
 		InFile.open(ReadFileName);
-
+		InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
 		if (FilePos != 0)
-			InFile.seekg(FilePos, std::ios::beg);
+			InFile.seekg(FilePos, std::wios::beg);
 
-		rstr = "";
+		rstr = L"";
 		InFile.get(symb);
 
 		while (symb != stop && !InFile.eof()) {
+			symb = towlower(symb);
 			rstr += symb;
 			InFile.get(symb);
 		}
-		if (InFile.peek() != EOF)
-			FilePos = (int)InFile.tellg();
-		else
+		FilePos = (int)InFile.tellg();
+		if (InFile.peek() == EOF)
 			FilePos = -1;
 		InFile.close();
 	}
 
-	void IO::read(const char datatype, std::string & rdstring)
+	void IO::read(const wchar_t datatype, std::wstring & rdstring)
 	{
 		opentest();
-		std::ifstream InFile;
+		std::wifstream InFile;
 		InFile.open(ReadFileName);
-
-		char symb;
+		InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
+		wchar_t symb;
 		if (FilePos != 0)
 			InFile.seekg(FilePos, std::ios::beg);
 
-		if (InFile.peek() == '_')
+		if (InFile.peek() == L'_')
 			InFile.get(symb);
 		if (InFile.peek() == datatype)
 		{
 			InFile.seekg(FilePos + 4, std::ios::beg);
 			rdstring.clear();
 			InFile.get(symb);
-			while (symb != '\n') {
+			while (symb != L'\n') {
+				towlower(symb);
 				rdstring += symb;
 				InFile.get(symb);
 			}
 #ifdef _DEBUG
-			std::cout << "\nTEST. IO::read(). rdstring = " << rdstring << "\n";
+			std::wcout << L"\nTEST. IO::read(). rdstring = " << rdstring << L"\n";
 #endif // _DEBUG
 		}
 		else
-			ERROR::throwError("Error in IO::read(). Incorrect file structure.", ID);
+			ERROR::throwError(L"Error in IO::read(). Incorrect file structure.", ID);
 		if (InFile.peek() != EOF)
 			FilePos = (int)InFile.tellg();
 		else
@@ -166,53 +206,78 @@ namespace INPUT {
 		InFile.close();
 	}
 
-	void IO::readEntName(std::string & rdname)
+	void IO::readEntName(std::wstring & rdname)
 	{
-		read('N', rdname);
+		read(L'N', rdname);
 	}
 
-	void IO::readEntDeterm(std::string & rddeterm)
+	void IO::readEntDeterm(std::wstring & rddeterm)
 	{
-		read('D', rddeterm);
+		read(L'D', rddeterm);
 	}
 
 	void IO::readEntity(MODEL::Entity & inEnt)
 	{
-		std::string readstr;
-		readstr = j["nodes"][FilePos]["entityname"].dump();
-		//readstr.erase(readstr.begin());
-		//readstr.erase(readstr.end() - 1);
-		inEnt.setName(readstr);
-		readstr = j["nodes"][FilePos]["description"].dump();
-		//readstr.erase(readstr.begin());
-		//readstr.erase(readstr.end() - 1);
-		inEnt.setDeterm(readstr);
+		std::string strread;
+		std::wstring wstr = L"";
+
+		strread = j["nodes"][FilePos]["entityname"].dump();
+		
+		wstr = s2ws(strread);
+		while (wstr.find(L'"') != std::wstring::npos)
+			wstr.erase(wstr.find(L'"'), 1);
+
+		USEFUNC::editalltolower(wstr);
+#ifdef _DEBUG
+		std::wcout << L"\nTEST. IO::readEntity(). EtnName = " << wstr << L"\n";
+#endif // _DEBUG
+		inEnt.setName(wstr);
+
+		strread = j["nodes"][FilePos]["description"].dump();
+		wstr = s2ws(strread);
+		while (wstr.find(L'"') != std::wstring::npos)
+			wstr.erase(wstr.find(L'"'), 1);
+		USEFUNC::editalltolower(wstr);
+
+#ifdef _DEBUG
+		std::wcout << L"\nTEST. IO::readEntity(). EtnDet = " << wstr << L"\n";
+#endif // _DEBUG
+
+		inEnt.setDeterm(wstr);
 		FilePos++;
 	}
 
-	void IO::readRelType(char & rdtype)
+	void IO::readRelType(wchar_t & rdtype)
 	{
 		//rdtype = j["connects"][RelCount]["type"].dump();
 		/*std::string wstr;
-		read('T', wstr);
+		read(L'T', wstr);
 		if (wstr.length() != 0)
 			rdtype = wstr.at(0);*/
-		rdtype = 'i';
+		rdtype = L'i';
 	}
 
-	void IO::readRelParentEnt(std::string & rdparent)
+	void IO::readRelParentEnt(std::wstring & rdparent)
 	{
-		std::string s, s2 = "";
-		s = j["connects"][RelCount]["source"].dump();
+		std::wstring s, s2 = L"";
+		std::string strName;
+		
+		strName = j["connects"][RelCount]["source"].dump();
+		s = s2ws(strName);
+
 		s2 += s[7];
 		unsigned int variable = USEFUNC::strTouint(s2);
 		rdparent = getJSONEntFromID(variable);
 	}
 
-	void IO::readRelChildEnt(std::string & rdchild)
+	void IO::readRelChildEnt(std::wstring & rdchild)
 	{
-		std::string s, s2 = "";
-		s = j["connects"][RelCount]["target"].dump();
+		std::wstring s, s2 = L"";
+		std::string strName;
+
+		strName = j["connects"][RelCount]["target"].dump();
+		s = s2ws(strName);
+
 		s2 += s[7];
 		unsigned int variable = USEFUNC::strTouint(s2);
 		rdchild = getJSONEntFromID(variable);
@@ -221,10 +286,10 @@ namespace INPUT {
 
 	void IO::readRelation(MODEL::Relation & inRel)
 	{
-		std::string readstr;
+		std::wstring readstr;
 		//char readchar;
 		//readRelType(readchar);
-		inRel.setType('i');
+		inRel.setType(L'i');
 		readRelParentEnt(readstr);
 		inRel.setParentEnt(readstr);
 		readRelChildEnt(readstr);
@@ -240,10 +305,10 @@ namespace INPUT {
 	{
 		rdcount = j["connects"].size();
 		/*opentest();
-		std::ifstream InFile;
+		std::wifstream InFile;
 		InFile.open(ReadFileName);
 		std::string readstr;
-		char symb;
+		wchar_t symb;
 
 		if (FilePos != 0)
 			InFile.seekg(FilePos, std::ios::beg);
@@ -263,59 +328,64 @@ namespace INPUT {
 		InFile.close();*/
 	}
 
-	void IO::readParamStr(std::vector<std::string> & paramstr)
+	void IO::readParamStr(std::vector<std::wstring> & paramstr)
 	{
-		std::string readstring;
-		std::string readcount = "";
-		rawread(readcount);
-		for (int i = 0; i < USEFUNC::strToint(readcount); i++) {
+		std::wstring readstring;
+		std::wstring wreadcount = L"";
+		rawread(wreadcount);
+
+		int readcount = USEFUNC::strToint(wreadcount);
+
+		for (int i = 0; i < readcount; i++) {
 			rawread(readstring);
 			paramstr.push_back(readstring);
 #ifdef _DEBUG
-			std::cout << "\nTEST. IO::readParamStr(). rdstring = " << readstring << "\n";
+			std::wcout << L"\nTEST. IO::readParamStr(). rdstring = " << readstring << L"\n";
 #endif // _DEBUG
 		}
 	}
 
-	void IO::writeParamString(const std::string & FileName, const std::vector<std::string> & paramstr) const
+	void IO::writeParamString(const std::wstring & FileName, const std::vector<std::wstring> & paramstr) const
 	{
 		if (FileName.length() == 0)
-			ERROR::throwError("Error in IO::writeParamString(). Incorrect output file name.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). Incorrect output file name.", ID);
 		if (paramstr.size() == 0)
-			ERROR::throwError("Error in IO::writeParamString(). paramstring is empty.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). paramstring is empty.", ID);
 
-		std::ofstream OutFile;
+		std::wofstream OutFile;
 		OutFile.open(FileName, std::ios_base::out | std::ios_base::trunc);
+		OutFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
 		if (!OutFile.is_open())
-			ERROR::throwError("Error in IO::writeParamString(). Can't open the file.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). Can't open the file.", ID);
 
-		OutFile << paramstr.size() << '\n';
+		OutFile << paramstr.size() << L'\n';
 		for (unsigned int i = 0; i < paramstr.size(); i++)
-			OutFile << paramstr.at(i) << '\n';
+			OutFile << paramstr.at(i) << L'\n';
 
 		OutFile.close();
 	}
 
-	void IO::writeLine(const std::string & FileName, const std::string & strline)
+	void IO::writeLine(const std::wstring & FileName, const std::wstring & strline)
 	{
 		if (FileName.length() == 0)
-			ERROR::throwError("Error in IO::writeParamString(). Incorrect output file name.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). Incorrect output file name.", ID);
 		if (strline.size() == 0)
-			ERROR::throwError("Error in IO::writeParamString(). paramstring is empty.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). paramstring is empty.", ID);
 
-		std::ofstream OutFile;
+		std::wofstream OutFile;
 		OutFile.open(FileName, std::ios_base::out | std::ios_base::app);
+		OutFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
 		if (!OutFile.is_open())
-			ERROR::throwError("Error in IO::writeParamString(). Can't open the file.", ID);
+			ERROR::throwError(L"Error in IO::writeParamString(). Can't open the file.", ID);
 
-		OutFile << strline << '\n';
+		OutFile << strline << L'\n';
 
 		OutFile.close();
 	}
 
-	bool IO::freset(const std::string &FileName) const
+	bool IO::freset(const std::wstring &FileName) const
 	{
-		std::ofstream File;
+		std::wofstream File;
 		File.open(FileName, std::ios_base::out | std::ios_base::trunc);
 		if (!File.is_open())
 			return false;

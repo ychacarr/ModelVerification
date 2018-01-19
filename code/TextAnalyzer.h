@@ -14,10 +14,10 @@ namespace TXTANALYZE
 	public:
 		TxtAnalyzer();
 		~TxtAnalyzer();
-		bool Analyze(const MODEL::Entity & inEnt, const std::string & theme, std::string & outname);
-		std::string GenParam(const std::string & inname);
-		std::string GenParam(const MODEL::Entity & inEnt);
-		std::string GenParam(const MODEL::Relation & inRel);
+		bool Analyze(const MODEL::Entity & inEnt, const std::wstring & theme, std::wstring & outname);
+		std::wstring GenParam(const std::wstring & inname);
+		std::wstring GenParam(const MODEL::Entity & inEnt);
+		std::wstring GenParam(const MODEL::Relation & inRel);
 	};
 }
 #endif // !H_TXTANALYZE

@@ -26,26 +26,26 @@ namespace VCORE
 	private:
 		unsigned int ID;
 		static unsigned int Counter;
-		std::string verifName;
-		std::string standName;
-		std::string param;
-		void setField(const char fname, const std::string & newvalue);
+		std::wstring verifName;
+		std::wstring standName;
+		std::wstring param;
+		void setField(const wchar_t fname, const std::wstring & newvalue);
 	public:
 		CorrespLine();
-		CorrespLine(const std::string & verifname, const std::string & standardname, const std::string & paramval);
+		CorrespLine(const std::wstring & verifname, const std::wstring & standardname, const std::wstring & paramval);
 		~CorrespLine();
 		unsigned int getID() const;
-		std::string getVerifName() const;
-		void setVerifName(const std::string & nverifname);
-		std::string getStandardName() const;
-		void setStandName(const std::string & nstandname);
-		std::string getParam() const;
-		void setParam(const std::string & nparamval);
-		void setAll(const std::string & nvername, const std::string & nstandname, const std::string & nparam);
+		std::wstring getVerifName() const;
+		void setVerifName(const std::wstring & nverifname);
+		std::wstring getStandardName() const;
+		void setStandName(const std::wstring & nstandname);
+		std::wstring getParam() const;
+		void setParam(const std::wstring & nparamval);
+		void setAll(const std::wstring & nvername, const std::wstring & nstandname, const std::wstring & nparam);
 		CorrespLine & operator= (const CorrespLine & rhs);
-		friend std::string findStndNameTo(const std::string & veriname, const std::vector<CorrespLine> & intable);
-		friend std::string findVerNameTo(const std::string & standname, const std::vector<CorrespLine> & intable);
-		friend std::string findNameFromParam(const std::string & inparam, const std::vector<CorrespLine> & intable);
+		friend std::wstring findStndNameTo(const std::wstring & veriname, const std::vector<CorrespLine> & intable);
+		friend std::wstring findVerNameTo(const std::wstring & standname, const std::vector<CorrespLine> & intable);
+		friend std::wstring findNameFromParam(const std::wstring & inparam, const std::vector<CorrespLine> & intable);
 	};
 
 

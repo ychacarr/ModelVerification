@@ -13,69 +13,71 @@ namespace TXTANALYZE
 	{
 		ID = ++Counter;
 		#ifdef _DEBUG
-			std::cout << "\nTxtAnalyzer(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nTxtAnalyzer(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
 	TxtAnalyzer::~TxtAnalyzer()
 	{
 		#ifdef _DEBUG
-			std::cout << "~TxtAnalyzer(). Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~TxtAnalyzer(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 
-	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, const std::string & theme, std::string & outname)
+	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, const std::wstring & theme, std::wstring & outname)
 	{
 		Sentence sentenceanalyze(inEnt.getDeterm());
 		outname.clear();
-		std::string keywords, testkey;
-		std::size_t notfound = std::string::npos;
+		std::wstring keywords, testkey;
+		std::size_t notfound = std::wstring::npos;
 		//TEST CODE START
 		{
 			// !! Использование файла в обход IOModule
-			std::ifstream InFile;
+			std::wifstream InFile;
 			bool endFlag = false;
 				for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
 					endFlag = false;
 					if (sentenceanalyze.getWord(i).length() > 3) {
-						std::cout << '\n' << sentenceanalyze.getWord(i) << " now analyze.";
-						InFile.open("txt files/Dictionary_" + theme + ".txt", std::ios_base::in);
+						std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" now analyze.";
+						InFile.open(L"txt files/Dictionary_" + theme + L".txt", std::ios_base::in);
+						InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
 						if (!InFile.is_open())
-							ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open Dictionary_ file. ID - Entity.", inEnt.getID());
+							ERROR::throwError(L"Error in TxtAnalyzer::Analyze(). Can't open Dictionary_ file. ID - Entity.", inEnt.getID());
 						while (!InFile.eof() && !endFlag) {
-							std::string strsynon;
-							std::getline(InFile, testkey, '\n');
-							std::getline(InFile, strsynon, '\n');
+							std::wstring strsynon;
+							std::getline(InFile, testkey, L'\n');
+							std::getline(InFile, strsynon, L'\n');
 
 							if (notfound != strsynon.find(sentenceanalyze.getWord(i))) {
 								// Для исключения повторного добавления ключевых слов
 								// Возможно излишяя проверка, но пока пусть будет
 								if (notfound == keywords.find(testkey)) {
-									keywords += testkey + " ";
+									keywords += testkey + L" ";
 									endFlag = true;
 								}
 							}
 						}
 						InFile.close();
-						std::cout << '\n' << sentenceanalyze.getWord(i) << " analyze end.";
+						std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" analyze end.";
 					}
 				}
 			InFile.close();
 			if (keywords.length() > 1)
 				keywords.erase(keywords.end() - 1);
 			testkey.clear();
-			InFile.open("txt files/StandardDefinit_" + theme + ".txt", std::ios_base::in);
+			InFile.open(L"txt files/StandardDefinit_" + theme + L".txt", std::ios_base::in);
+			InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
 			if (!InFile.is_open())
-				ERROR::throwError("Error in TxtAnalyzer::Analyze(). Can't open StandardDefinit_ file. ID - Entity.", inEnt.getID());
+				ERROR::throwError(L"Error in TxtAnalyzer::Analyze(). Can't open StandardDefinit_ file. ID - Entity.", inEnt.getID());
 
 
 			if (keywords.length() != 0) {
 				while (!InFile.eof()) {
-					std::string standdeterm;
+					std::wstring standdeterm;
 					std::getline(InFile, testkey);
 					std::getline(InFile, standdeterm);
 					if (notfound != standdeterm.find(keywords)) {
-						std::cout << "\nANALYZE TEST. \n Проверяемая сущность - " + inEnt.getName() + ". Сущность в эталоне - " + testkey + '\n';
+						std::wcout << L"\nANALYZE TEST. \n Проверяемая сущность - " + inEnt.getName() + L". Сущность в эталоне - " + testkey + L'\n';
 						InFile.close();
 						outname.append(testkey);
 						return true;
@@ -84,34 +86,42 @@ namespace TXTANALYZE
 			}
 			InFile.close();
 		}
-		std::cout << "\nANALYZE TEST. \n FAIL TO ANALYZE.\n";
+		std::wcout << L"\nANALYZE TEST. In name = " << inEnt.getName() << ". FAIL TO ANALYZE.\n";
 		// TEST CODE END
 		outname.append(inEnt.getName());
 		return false;
 	}
 
-	std::string TxtAnalyzer::GenParam(const std::string & inname)
+	std::wstring TxtAnalyzer::GenParam(const std::wstring & inname)
 	{
 		if (inname.length() == 0)
-			return std::string("");
-		std::string res = "";
+			return std::wstring(L"");
+
+#ifdef _DEBUG
+		std::wcout << L"\nTEST. TxtAnalyzer::GenParam. inname = " << inname << L"\n";
+#endif // _DEBUG
+
+		std::wstring res = L"";
 		res += inname.at(0);
 		res += inname.at((inname.length() / 2));
 		res += inname.at(inname.length() - 1);
 		res += USEFUNC::intTostr(inname.length());
-		return res;
+#ifdef _DEBUG
+		std::wcout << L"\nTEST. TxtAnalyzer::GenParam. param = " << res << L"\n";
+#endif // _DEBUG
+		return std::wstring(res);
 	}
 
-	std::string TxtAnalyzer::GenParam(const MODEL::Entity & inEnt)
+	std::wstring TxtAnalyzer::GenParam(const MODEL::Entity & inEnt)
 	{
 		return GenParam(inEnt.getName());
 	}
 
-	std::string TxtAnalyzer::GenParam(const MODEL::Relation & inRel)
+	std::wstring TxtAnalyzer::GenParam(const MODEL::Relation & inRel)
 	{
-		std::string res = "";
+		std::wstring res = L"";
 		res = GenParam(inRel.getParentEnt());
-		res += '[' + inRel.getType() + ']';
+		res += L'[' + inRel.getType() + L']';
 		res += GenParam(inRel.getChildEnt());
 		return res;
 	}

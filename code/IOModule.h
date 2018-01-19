@@ -17,38 +17,39 @@ namespace INPUT {
 	private:
 		unsigned int ID;
 		static unsigned int Counter;
-		std::string ReadFileName;
+		std::wstring ReadFileName;
 		int FilePos;
+		std::wstreampos trueFilePos;
 		int RelCount;
 		void opentest() const;
-		void rawread(std::string &rstr, char stop = '\n');
-		void read(const char datatype, std::string &rdstring);
+		void rawread(std::wstring &rstr, wchar_t stop = '\n');
+		void read(const wchar_t datatype, std::wstring &rdstring);
 		using json = nlohmann::json;
 		json j;
 	public:
 		IO();
-		IO(const std::string &fname);
+		IO(const std::wstring &fname);
 		~IO();
-		std::string getFileName() const;
-		void setFileName(const std::string &fname);
+		std::wstring getFileName() const;
+		void setFileName(const std::wstring &fname);
 		int getFilePos() const;
 		unsigned int getID() const;
-		std::string getJSONEntFromID(unsigned int &EntID);
+		std::wstring getJSONEntFromID(unsigned int &EntID);
 		bool checkEOF() const;
 		void resetFilePos();
 		void readEntity(MODEL::Entity &inEnt);
-		void readEntName(std::string &rdname);
-		void readEntDeterm(std::string &rddeterm);
+		void readEntName(std::wstring &rdname);
+		void readEntDeterm(std::wstring &rddeterm);
 		void readEntCount(int &rdcount);
 		void readRelation(MODEL::Relation &inRel);
-		void readRelType(char &rdtype);
-		void readRelParentEnt(std::string &rdparent);
-		void readRelChildEnt(std::string &rdchild);
+		void readRelType(wchar_t &rdtype);
+		void readRelParentEnt(std::wstring &rdparent);
+		void readRelChildEnt(std::wstring &rdchild);
 		void readRelCount(int & rdcount);
-		void readParamStr(std::vector<std::string> &paramstr);
-		void writeParamString(const std::string &FileName, const std::vector<std::string> &paramstr) const;
-		void writeLine(const std::string &FileName, const std::string &strline);
-		bool freset(const std::string &FileName) const;
+		void readParamStr(std::vector<std::wstring> &paramstr);
+		void writeParamString(const std::wstring &FileName, const std::vector<std::wstring> &paramstr) const;
+		void writeLine(const std::wstring &FileName, const std::wstring &strline);
+		bool freset(const std::wstring &FileName) const;
 
 		
 	};

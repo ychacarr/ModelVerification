@@ -8,16 +8,16 @@ namespace MODEL {
 	private:
 		unsigned int ID;
 		static unsigned int Counter;
-		std::string Name;
-		std::string Determ;
-		void setField(const char fname, const std::string &newvalue);
+		std::wstring Name;
+		std::wstring Determ;
+		void setField(const wchar_t fname, const std::wstring &newvalue);
 	public:
 		Entity();
 		~Entity();
-		std::string getName() const;
-		void setName(const std::string &newname);
-		std::string getDeterm() const;
-		void setDeterm(const std::string &newdeterm);
+		std::wstring getName() const;
+		void setName(const std::wstring &newname);
+		std::wstring getDeterm() const;
+		void setDeterm(const std::wstring &newdeterm);
 		unsigned int getID() const;
 	};
 }

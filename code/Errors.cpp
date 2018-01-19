@@ -3,23 +3,23 @@
 
 namespace ERROR {
 
-	char ErrorMSG[160];
+	wchar_t ErrorMSG[160];
 
-	void throwError(const char *EMSG, unsigned int inID)
+	void throwError(const wchar_t *EMSG, unsigned int inID)
 	{
 		if (inID != 0)
-			snprintf(ErrorMSG, 160, "%s Object ID = %d", EMSG, inID);
+			_snwprintf_s(ErrorMSG, 160, L"%s Object ID = %d", EMSG, inID);
 		else
-			snprintf(ErrorMSG, 160, "%s", EMSG);
+			_snwprintf_s(ErrorMSG, 160, L"%s", EMSG);
 		throw ErrorMSG;
 	}
 
-	void throwError(const std::string &EMSG, unsigned int inID)
+	void throwError(const std::wstring &EMSG, unsigned int inID)
 	{
 		if (inID != 0)
-			snprintf(ErrorMSG, 160, "%s Object ID = %d.", EMSG.c_str(), inID);
+			_snwprintf_s(ErrorMSG, 160, L"%s Object ID = %d.", EMSG.c_str(), inID);
 		else
-			snprintf(ErrorMSG, 160, "%s", EMSG.c_str());
+			_snwprintf_s(ErrorMSG, 160, L"%s", EMSG.c_str());
 		throw ErrorMSG;
 	}
 }

@@ -9,24 +9,24 @@ namespace VCORE
 	CorrespLine::CorrespLine()
 	{
 		ID = ++Counter;
-		verifName = "";
-		standName = "";
-		param = "";
+		verifName = L"";
+		standName = L"";
+		param = L"";
 		#ifdef _DEBUG
-			std::cout << "\nCorrespLine(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nCorrespLine(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
-	CorrespLine::CorrespLine(const std::string & verifname, const std::string & standardname, const std::string & paramval)
+	CorrespLine::CorrespLine(const std::wstring & verifname, const std::wstring & standardname, const std::wstring & paramval)
 	{
 		ID = ++Counter;
 		if (verifname.length() * standardname.length() * paramval.length() == 0)
-			ERROR::throwError("Error in CorrespLine::CorrespLine(). Input values can't be empty.", ID);
+			ERROR::throwError(L"Error in CorrespLine::CorrespLine(). Input values can't be empty.", ID);
 		verifName.append(verifname);
 		standName.append(standardname);
 		param.append(paramval);
 		#ifdef _DEBUG
-			std::cout << "\nCorrespLine(). Object with ID = " << ID << " was created.\n";
+			std::wcout << L"\nCorrespLine(). Object with ID = " << ID << L" was created.\n";
 		#endif // _DEBUG
 	}
 
@@ -36,33 +36,33 @@ namespace VCORE
 		standName.clear();
 		param.clear();
 		#ifdef _DEBUG
-			std::cout << "~CorrespLine. Object with ID = " << ID << " was destroyed.\n";
+			std::wcout << L"~CorrespLine. Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
 	}
 
-	void CorrespLine::setField(const char fname, const std::string & newvalue)
+	void CorrespLine::setField(const wchar_t fname, const std::wstring & newvalue)
 	{
 		if (newvalue.length() == 0)
-			ERROR::throwError("Error in CorrespLine::setField(). Set value can't be empty.", ID);
+			ERROR::throwError(L"Error in CorrespLine::setField(). Set value can't be empty.", ID);
 		switch (fname)
 		{
-			case 'V':
+			case L'V':
 				if (verifName.length() != 0)
 					verifName.clear();
 				verifName.append(newvalue);
 			break;
-			case 'S':
+			case L'S':
 				if (standName.length() != 0)
 					standName.clear();
 				standName.append(newvalue);
 			break;
-			case 'P':
+			case L'P':
 				if (param.length() != 0)
 					param.clear();
 				param.append(newvalue);
 			break;
 			default:
-				ERROR::throwError("Error in CorrespLine::setField(). Unknown field name.", ID);
+				ERROR::throwError(L"Error in CorrespLine::setField(). Unknown field name.", ID);
 			break;
 		}
 	}
@@ -72,37 +72,37 @@ namespace VCORE
 		return ID;
 	}
 
-	std::string CorrespLine::getVerifName() const
+	std::wstring CorrespLine::getVerifName() const
 	{
-		return std::string(verifName);
+		return std::wstring(verifName);
 	}
 
-	void CorrespLine::setVerifName(const std::string & nverifname)
+	void CorrespLine::setVerifName(const std::wstring & nverifname)
 	{
-		setField('V', nverifname);
+		setField(L'V', nverifname);
 	}
 
-	std::string CorrespLine::getStandardName() const
+	std::wstring CorrespLine::getStandardName() const
 	{
-		return std::string(standName);
+		return std::wstring(standName);
 	}
 
-	void CorrespLine::setStandName(const std::string & nstandname)
+	void CorrespLine::setStandName(const std::wstring & nstandname)
 	{
-		setField('S', nstandname);
+		setField(L'S', nstandname);
 	}
 
-	std::string CorrespLine::getParam() const
+	std::wstring CorrespLine::getParam() const
 	{
-		return std::string(param);
+		return std::wstring(param);
 	}
 
-	void CorrespLine::setParam(const std::string & nparamval)
+	void CorrespLine::setParam(const std::wstring & nparamval)
 	{
-		setField('P', nparamval);
+		setField(L'P', nparamval);
 	}
 
-	void CorrespLine::setAll(const std::string & nvername, const std::string & nstandname, const std::string & nparam)
+	void CorrespLine::setAll(const std::wstring & nvername, const std::wstring & nstandname, const std::wstring & nparam)
 	{
 		setVerifName(nvername);
 		setStandName(nstandname);
@@ -111,38 +111,38 @@ namespace VCORE
 
 	CorrespLine & CorrespLine::operator=(const CorrespLine & rhs)
 	{
-		setField('V', rhs.verifName);
-		setField('S', rhs.standName);
-		setField('P', rhs.param);
+		setField(L'V', rhs.verifName);
+		setField(L'S', rhs.standName);
+		setField(L'P', rhs.param);
 		return *this;
 	}
 
-	std::string VCORE::findStndNameTo(const std::string & veriname, const std::vector<CorrespLine> & intable)
+	std::wstring VCORE::findStndNameTo(const std::wstring & veriname, const std::vector<CorrespLine> & intable)
 	{
 		for (unsigned int i = 0; i < intable.size(); i++) {
 			if (veriname == intable.at(i).getVerifName()) 
-				return std::string(intable.at(i).getStandardName());
+				return std::wstring(intable.at(i).getStandardName());
 		}
-		return std::string();
+		return std::wstring();
 	}
 
-	std::string VCORE::findVerNameTo(const std::string & standname, const std::vector<CorrespLine> & intable)
+	std::wstring VCORE::findVerNameTo(const std::wstring & standname, const std::vector<CorrespLine> & intable)
 	{
 		for (unsigned int i = 0; i < intable.size(); i++) {
 			if (standname == intable.at(i).getStandardName())
-				return std::string(intable.at(i).getVerifName());
+				return std::wstring(intable.at(i).getVerifName());
 		}
-		return std::string();
+		return std::wstring();
 	}
 
-	std::string findNameFromParam(const std::string & inparam, const std::vector<CorrespLine> & intable)
+	std::wstring findNameFromParam(const std::wstring & inparam, const std::vector<CorrespLine> & intable)
 	{
-		if (inparam.find('!') != std::string::npos) {
+		if (inparam.find('!') != std::wstring::npos) {
 			unsigned int icycl = 0;
-			std::string result = "Связь между ";
+			std::wstring result = L"Связь между ";
 
 			while (icycl < inparam.length()) {
-				std::string paramPiece = "";
+				std::wstring paramPiece = L"";
 
 				while (icycl < inparam.length() && inparam.at(icycl) != '!')
 				{
@@ -154,16 +154,16 @@ namespace VCORE
 
 				result += findNameFromParam(paramPiece, intable);
 				if (icycl < inparam.length())
-					result += " и ";
+					result += L" и ";
 			}
-			return result + ".";
+			return result + L".";
 		}
 		else {
 			for (unsigned int i = 0; i < intable.size(); i++)
 				if (inparam == intable.at(i).getParam())
-					return std::string(intable.at(i).getStandardName());
+					return std::wstring(intable.at(i).getStandardName());
 		}
-		return std::string(inparam);
+		return std::wstring(inparam);
 	}
 
 	//CorrespTable::CorrespTable()
