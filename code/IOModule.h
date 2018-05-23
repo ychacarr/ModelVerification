@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 #include "Relation.h"
+#include "Trie.h"
 #include <vector>
 #include "json.hpp"
 	/*
@@ -51,6 +52,7 @@ namespace INPUT {
 		void writeLine(const std::wstring &FileName, const std::wstring &strline);
 		bool freset(const std::wstring &FileName) const;
 		std::wstring fnd_main_form(const std::wstring & inKey);
+		void form_syn_trie(MTrie & inTrie) const;
 	};
 }
 namespace OUTPUT {

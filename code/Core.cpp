@@ -102,7 +102,7 @@ namespace VCORE
 			//TO DO: переписать код к более приемлемому виду, как только будет написан модуль анализа текста
 			corrbuff.setVerifName(ReadEnt.getName());
 			std::wstring buf;
-			if (!Analyzer.Analyze(ReadEnt, themename, buf))
+			if (!Analyzer.Analyze(iomodule, ReadEnt, buf))
 				verfresults.append(L"\nЌе найдено соответствие дл€ сущности: " + buf);
 
 			corrbuff.setStandName(buf);

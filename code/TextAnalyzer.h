@@ -3,6 +3,7 @@
 #define H_TXTANALYZE
 #include "Entity.h"
 #include "Relation.h"
+#include "IOModule.h"
 
 namespace TXTANALYZE
 {
@@ -14,7 +15,7 @@ namespace TXTANALYZE
 	public:
 		TxtAnalyzer();
 		~TxtAnalyzer();
-		bool Analyze(const MODEL::Entity & inEnt, const std::wstring & theme, std::wstring & outname);
+		bool Analyze(const INPUT::IO & FileReader, const MODEL::Entity & inEnt, std::wstring & outname);
 		std::wstring GenParam(const std::wstring & inname);
 		std::wstring GenParam(const MODEL::Entity & inEnt);
 		std::wstring GenParam(const MODEL::Relation & inRel);

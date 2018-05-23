@@ -20,6 +20,10 @@ namespace MODEL {
 	{
 		Name.clear();
 		Determ.clear();
+		if (keys.size() != 0)
+			keys.clear();
+		if (attribs.size() != 0)
+			attribs.clear();
 		#ifdef _DEBUG
 			std::wcout << L"~Entity(). Object with ID = " << ID << L" was destroyed.\n";
 		#endif // _DEBUG
@@ -40,6 +44,12 @@ namespace MODEL {
 				if (Determ.length() != 0)
 					Determ.clear();
 				Determ.append(newvalue);
+			break;
+			case L'K':
+				keys.push_back(newvalue);
+			break;
+			case L'A':
+				attribs.push_back(newvalue);
 			break;
 			default:
 				ERROR::throwError(L"Error in Entity::setField(). Incorrect filed name.", ID);
@@ -65,6 +75,28 @@ namespace MODEL {
 	void Entity::setDeterm(const std::wstring &newdeterm)
 	{
 		setField(L'D', newdeterm);
+	}
+
+	void Entity::setKeys(const std::vector<std::wstring>& in_keys)
+	{
+		for (unsigned int i = 0; i < in_keys.size(); i++)
+			setField(L'K', in_keys.at(i));
+	}
+
+	std::vector<std::wstring> Entity::getKeys() const
+	{
+		return std::vector<std::wstring>(keys);
+	}
+
+	void Entity::setAttribs(const std::vector<std::wstring>& in_attribs)
+	{
+		for (unsigned int i = 0; i < in_attribs.size(); i++)
+			setField(L'A', in_attribs.at(i));
+	}
+
+	std::vector<std::wstring> Entity::getAttribs() const
+	{
+		return std::vector<std::wstring>(attribs);
 	}
 
 	unsigned int Entity::getID() const

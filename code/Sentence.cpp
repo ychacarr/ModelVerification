@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Sentence.h"
+#include "IOModule.h"
 #include "Errors.h"
 
 namespace TXTANALYZE
@@ -10,6 +11,7 @@ namespace TXTANALYZE
 	//
 	unsigned int MIN_SYMB = 3;
 	std::wstring MIN_EXCEP = L"íå";
+	std::wstring WORD_FORM_FILE = L"word_forms.txt";
 	//
 	//
 	//
@@ -106,6 +108,29 @@ namespace TXTANALYZE
 					res += 1.0;
 		res = double(words.size()) - res;
 		return res;
+	}
+
+	void Sentence::to_mainforms()
+	{
+		INPUT::IO FileFind;
+		std::vector<std::wstring> new_words;
+		std::wstring tmp_str;
+
+		FileFind.setFileName(WORD_FORM_FILE);
+
+		for (unsigned int i = 0; i < words.size(); i++) {
+			tmp_str = FileFind.fnd_main_form(words.at(i));
+			if (tmp_str.length() != 0)
+				new_words.push_back(tmp_str);
+			else {
+				// ÏÎÊÀ ÒÀÊ.
+				// ÍÅÎÁÕÎÄÈÌÎ ÑÄÅËÀÒÜ ÂÛÂÎÄ Â ÑÏÅÖÈÀËÜÍÛÉ ËÎÃ ÔÀÉË ÏÎÌÅÒÊÓ Î ÒÎÌ, ×ÒÎ ÒÀÊÎÃÎ ÑËÎÂÀ ÍÅÒ Â ÑËÎÂÀÐÅ ÔÎÐÌ
+				tmp_str.clear();
+				std::wcout << L"\n\t!!! !!! !!! !!! SENTENCE::to_mainforms(). !!! !!! !!! !!!\n";
+			}
+		}
+		words.clear();
+		words = new_words;
 	}
 
 	Sentence::~Sentence()

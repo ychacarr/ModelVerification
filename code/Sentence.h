@@ -20,6 +20,7 @@ namespace TXTANALYZE
 		void pushword(const std::wstring & newword);
 		void normalize();
 		double coincidenceTest(const Sentence &lhs) const;
+		void to_mainforms();
 		~Sentence();
 	};
 
