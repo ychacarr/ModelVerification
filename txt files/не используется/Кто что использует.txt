@@ -1,8 +1,0 @@
-Core::start
-	ßÂÍÎ:
-		TestFile
-		TestStandardParamStr
-		TestVerificationResults
-	ÍÅßÂÍÎ:
-		TestDictionary
-		TestStandard
