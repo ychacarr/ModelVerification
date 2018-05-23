@@ -18,6 +18,8 @@ namespace TXTANALYZE
 		unsigned int getWordcount() const;
 		std::wstring getWord(unsigned int wnumber);
 		void pushword(const std::wstring & newword);
+		void normalize();
+		double coincidenceTest(const Sentence &lhs) const;
 		~Sentence();
 	};
 

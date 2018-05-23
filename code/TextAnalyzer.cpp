@@ -8,6 +8,11 @@
 namespace TXTANALYZE
 {
 	unsigned int TxtAnalyzer::Counter = 0;
+	//
+	// СДЕЛАТЬ СЧИТЫВАНИЕ ИЗ ФАЙЛА, ТАК ЖЕ КАК И MIN_SYMB (и др.) 
+	double MAX_NOT_EQUAL = 0.0;
+	//
+	//
 
 	TxtAnalyzer::TxtAnalyzer()
 	{
@@ -26,41 +31,41 @@ namespace TXTANALYZE
 
 	bool TxtAnalyzer::Analyze(const MODEL::Entity &inEnt, const std::wstring & theme, std::wstring & outname)
 	{
-		Sentence sentenceanalyze(inEnt.getDeterm());
-		outname.clear();
 		std::wstring keywords, testkey;
 		std::size_t notfound = std::wstring::npos;
+		Sentence sentenceanalyze(inEnt.getDeterm());
+		sentenceanalyze.normalize();
+		if (outname.length() != 0)
+			outname.clear();
 		//TEST CODE START
 		{
 			// !! Использование файла в обход IOModule
 			std::wifstream InFile;
 			bool endFlag = false;
-				for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
-					endFlag = false;
-					if (sentenceanalyze.getWord(i).length() > 3) {
-						std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" now analyze.";
-						InFile.open(L"txt files/Dictionary_" + theme + L".txt", std::ios_base::in);
-						InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
-						if (!InFile.is_open())
-							ERROR::throwError(L"Error in TxtAnalyzer::Analyze(). Can't open Dictionary_ file. ID - Entity.", inEnt.getID());
-						while (!InFile.eof() && !endFlag) {
-							std::wstring strsynon;
-							std::getline(InFile, testkey, L'\n');
-							std::getline(InFile, strsynon, L'\n');
-
-							if (notfound != strsynon.find(sentenceanalyze.getWord(i))) {
-								// Для исключения повторного добавления ключевых слов
-								// Возможно излишяя проверка, но пока пусть будет
-								if (notfound == keywords.find(testkey)) {
-									keywords += testkey + L" ";
-									endFlag = true;
-								}
-							}
+			for (unsigned int i = 0; i < sentenceanalyze.getWordcount(); i++) {
+				endFlag = false;
+				//std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" now analyze.";
+				InFile.open(L"txt files/Dictionary_" + theme + L".txt", std::ios_base::in);
+				InFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
+				if (!InFile.is_open())
+					ERROR::throwError(L"Error in TxtAnalyzer::Analyze(). Can't open Dictionary_ file. ID - Entity.", inEnt.getID());
+				while (!InFile.eof() && !endFlag) {
+					std::wstring strsynon;
+					std::getline(InFile, testkey, L'\n');
+					std::getline(InFile, strsynon, L'\n');
+					
+				if (notfound != strsynon.find(sentenceanalyze.getWord(i))) {
+						// Для исключения повторного добавления ключевых слов
+						// Возможно излишяя проверка, но пока пусть будет
+						if (notfound == keywords.find(testkey)) {
+							keywords += testkey + L" ";
+							endFlag = true;
 						}
-						InFile.close();
-						std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" analyze end.";
 					}
 				}
+				InFile.close();
+				//std::wcout << L'\n' << sentenceanalyze.getWord(i) << L" analyze end.";
+			}
 			InFile.close();
 			if (keywords.length() > 1)
 				keywords.erase(keywords.end() - 1);
@@ -76,6 +81,17 @@ namespace TXTANALYZE
 					std::wstring standdeterm;
 					std::getline(InFile, testkey);
 					std::getline(InFile, standdeterm);
+
+					//Sentence Stand(standdeterm), KeySent(keywords);
+					//double coincidence = Stand.coincidenceTest(KeySent);
+					//if (coincidence <= MAX_NOT_EQUAL) {
+					//		std::wcout << L"\nANALYZE TEST. \n Проверяемая сущность - " + inEnt.getName() + L". Сущность в эталоне - " + testkey + L'\n';
+					//		std::wcout << L"Не совпало слов = " << coincidence << L'\n';
+					//		InFile.close();
+					//		outname.append(testkey);
+					//		return true;
+					//}
+
 					if (notfound != standdeterm.find(keywords)) {
 						std::wcout << L"\nANALYZE TEST. \n Проверяемая сущность - " + inEnt.getName() + L". Сущность в эталоне - " + testkey + L'\n';
 						InFile.close();

@@ -7,25 +7,6 @@
 
 namespace INPUT {
 
-	//
-	// 2 functions (ws2s, s2ws) from https://stackoverflow.com/questions/4804298/how-to-convert-wstring-into-string
-	//
-	std::string ws2s(const std::wstring& wstr)
-	{
-		using convert_typeX = std::codecvt_utf8<wchar_t>;
-		std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-		return converterX.to_bytes(wstr);
-	}
-
-	std::wstring s2ws(const std::string& str)
-	{
-		using convert_typeX = std::codecvt_utf8<wchar_t>;
-		std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-		return converterX.from_bytes(str);
-	}
-
 	unsigned int IO::Counter = 0;
 
 	//
@@ -89,7 +70,7 @@ namespace INPUT {
 			wstrforFl += symb;
 		}
 		FileIn.close();
-		strforJs = ws2s(wstrforFl);	
+		strforJs = USEFUNC::ws2s(wstrforFl);	
 		std::stringstream strstream;
 		strstream << strforJs;
 		strstream >> j;
@@ -113,7 +94,7 @@ namespace INPUT {
 		std::wstring wentName;
 		std::string sentName;
 		sentName = j["nodes"][EntID]["entityname"].dump();
-		wentName = s2ws(sentName);
+		wentName = USEFUNC::s2ws(sentName);
 
 		while (wentName.find(L'"') != std::wstring::npos)
 			wentName.erase(wentName.find(L'"'), 1);
@@ -223,7 +204,7 @@ namespace INPUT {
 
 		strread = j["nodes"][FilePos]["entityname"].dump();
 		
-		wstr = s2ws(strread);
+		wstr = USEFUNC::s2ws(strread);
 		while (wstr.find(L'"') != std::wstring::npos)
 			wstr.erase(wstr.find(L'"'), 1);
 
@@ -234,7 +215,7 @@ namespace INPUT {
 		inEnt.setName(wstr);
 
 		strread = j["nodes"][FilePos]["description"].dump();
-		wstr = s2ws(strread);
+		wstr = USEFUNC::s2ws(strread);
 		while (wstr.find(L'"') != std::wstring::npos)
 			wstr.erase(wstr.find(L'"'), 1);
 		USEFUNC::editalltolower(wstr);
@@ -263,7 +244,7 @@ namespace INPUT {
 		std::string strName;
 		
 		strName = j["connects"][RelCount]["source"].dump();
-		s = s2ws(strName);
+		s = USEFUNC::s2ws(strName);
 
 		s2 += s[7];
 		unsigned int variable = USEFUNC::strTouint(s2);
@@ -276,7 +257,7 @@ namespace INPUT {
 		std::string strName;
 
 		strName = j["connects"][RelCount]["target"].dump();
-		s = s2ws(strName);
+		s = USEFUNC::s2ws(strName);
 
 		s2 += s[7];
 		unsigned int variable = USEFUNC::strTouint(s2);
@@ -392,4 +373,37 @@ namespace INPUT {
 		File.close();
 		return true;
 	}
+
+	std::wstring IO::fnd_main_form(const std::wstring & inKey)
+	{
+		wchar_t symb;
+		bool endFlag = false;
+		std::wstring rd_string;
+
+		std::wifstream inFile(ReadFileName, std::ios_base::in);
+		inFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
+		while (!inFile.eof() && !endFlag) {
+			symb = inFile.get();
+			if (symb != inKey.at(0)) {
+				while (symb != L'\n' && !inFile.eof())
+					symb = inFile.get();
+			}
+			else {
+				rd_string.clear();
+				rd_string += towlower(symb);
+				while (symb != L'\n' && !inFile.eof()) {
+					symb = inFile.get();
+					rd_string += towlower(symb);
+				}
+				if (std::wstring::npos != rd_string.find(inKey))
+					endFlag = true;
+			}
+		}
+		if (endFlag && rd_string.length() != 0)
+			rd_string.erase(rd_string.find_first_of('#', 0), rd_string.length());
+		else
+			rd_string.clear();
+		return std::wstring(rd_string);
+	}
+
 }

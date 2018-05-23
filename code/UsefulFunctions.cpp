@@ -50,7 +50,8 @@ namespace USEFUNC
 			ERROR::throwError(L"Error in alltolower(). Input string can't be empty.");
 		std::locale loc;
 		for (unsigned int i = 0; i < inwstr.length(); i++)
-			inwstr.at(i) = std::tolower(inwstr.at(i), loc);
+			if (std::isupper(inwstr.at(i), loc))
+				inwstr.at(i) = std::tolower(inwstr.at(i), loc);
 	}
 
 	std::wstring cpyalltolower(const std::wstring &inwstr)
@@ -64,5 +65,24 @@ namespace USEFUNC
 		for (unsigned int i = 0; i < inwstr.length(); i++)
 			res.push_back(std::tolower(inwstr.at(i), loc));
 		return std::wstring(res);
+	}
+
+	//
+	// 2 functions (ws2s, s2ws) from https://stackoverflow.com/questions/4804298/how-to-convert-wstring-into-string
+	//
+	std::string ws2s(const std::wstring& wstr)
+	{
+		using convert_typeX = std::codecvt_utf8<wchar_t>;
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.to_bytes(wstr);
+	}
+
+	std::wstring s2ws(const std::string& str)
+	{
+		using convert_typeX = std::codecvt_utf8<wchar_t>;
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.from_bytes(str);
 	}
 }

@@ -50,8 +50,7 @@ namespace INPUT {
 		void writeParamString(const std::wstring &FileName, const std::vector<std::wstring> &paramstr) const;
 		void writeLine(const std::wstring &FileName, const std::wstring &strline);
 		bool freset(const std::wstring &FileName) const;
-
-		
+		std::wstring fnd_main_form(const std::wstring & inKey);
 	};
 }
 namespace OUTPUT {

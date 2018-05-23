@@ -10,6 +10,7 @@ namespace USEFUNC
 	std::wstring intTostr(int num);
 	void editalltolower(std::wstring &inwstr);
 	std::wstring cpyalltolower(const std::wstring &inwstr);
-
+	std::string ws2s(const std::wstring& wstr);
+	std::wstring s2ws(const std::string& str);
 }
 #endif // !H_USEFULFUNC
